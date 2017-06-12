@@ -1,67 +1,100 @@
 package interactions;
 
-import java.util.Arrays;
-import java.util.Collection;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-@RunWith(Parameterized.class)
-public class PhoneCallTest {
-
-   private final long idInput;
-   private final long contactIdInput;
-   private final int durationSecondsInput;
-   private final int durationSecondsExpected;
-   private final PhoneCallType callTypeInput;
-   private PhoneCall call;
+/**
+ * Tests the PhoneCall class
+ */
+public class PhoneCallTest extends InteractionTestBase<PhoneCall> {
 
    private final static String SUMMARY_TEXT_CALL_TYPE_FORMAT = "%s%d%n";
-   private final static String SUMMARY_TEXT_DURATION_FORMAT = "%d:%d";
 
-   public PhoneCallTest(long idInput, long contactIdInput, int durationSecondsInput, int durationSecondsExpected, PhoneCallType callTypeInput) {
-      this.idInput = idInput;
-      this.contactIdInput = contactIdInput;
-      this.durationSecondsInput = durationSecondsInput;
-      this.durationSecondsExpected = durationSecondsExpected;
-      this.callTypeInput = callTypeInput;
-   }
+   private static final int TEST_DURATION = 765;
+   private static final PhoneCallType TEST_TYPE_RECEIVED = PhoneCallType.RECEIVED;
+   private static final PhoneCallType TEST_TYPE_PLACED = PhoneCallType.PLACED;
+   private static final PhoneCallType TEST_TYPE_MISSED = PhoneCallType.MISSED;
+   private static final String TEST_MESSAGE_RECEIVED = "Received call from 7777\n"
+           + "12:45";
+   private static final String TEST_MESSAGE_PLACED = "Called 7777\n"
+           + "12:45";
+   private static final String TEST_MESSAGE_MISSED = "Missed call from 7777\n";
 
-   @Parameterized.Parameters
-   public static Collection data() {
-      return Arrays.asList(new Object[][]{
-         {100, 201, 1035, 1035, PhoneCallType.PLACED, ""},
-         {101, 201, 0, 0, PhoneCallType.MISSED, ""},
-         {102, 201, 301, 0, PhoneCallType.MISSED, ""},
-         {103, 201, 3019, 3019, PhoneCallType.RECEIVED, ""}
-      });
+   private static PhoneCall phoneCallReceived;
+   private static PhoneCall phoneCallPlaced;
+   private static PhoneCall phoneCallMissed;
+
+   public PhoneCallTest() {
+
    }
 
    @Before
    public void setUp() {
-      call = new PhoneCall(idInput, contactIdInput, durationSecondsInput, callTypeInput);
+
+      phoneCallReceived = new PhoneCall(BASE_TEST_ID, BASE_TEST_CONTACT_ID, TEST_DURATION, TEST_TYPE_RECEIVED);
+      phoneCallPlaced = new PhoneCall(BASE_TEST_ID, BASE_TEST_CONTACT_ID, TEST_DURATION, TEST_TYPE_PLACED);
+      phoneCallMissed = new PhoneCall(BASE_TEST_ID, BASE_TEST_CONTACT_ID, TEST_DURATION, TEST_TYPE_MISSED);
+
    }
 
    @Test
-   public void testGetMessageSummaryText() {
-      String expected = String.format(SUMMARY_TEXT_CALL_TYPE_FORMAT, 
-              callTypeInput.getDisplayText(), contactIdInput);
-      if (!callTypeInput.equals(PhoneCallType.MISSED)) {
-         expected += String.format(SUMMARY_TEXT_DURATION_FORMAT, durationSecondsExpected / 60, durationSecondsExpected % 60);
-      }
-      assertEquals(expected, call.getSummaryText());
+   @Override
+   public void testGetId() {
+      assertEquals(BASE_TEST_ID, phoneCallReceived.getId());
+      assertEquals(BASE_TEST_ID, phoneCallPlaced.getId());
+      assertEquals(BASE_TEST_ID, phoneCallMissed.getId());
+
+   }
+
+   @Test
+   @Override
+   public void testGetContactId() {
+      assertEquals(BASE_TEST_CONTACT_ID, phoneCallReceived.getContactId());
+      assertEquals(BASE_TEST_CONTACT_ID, phoneCallPlaced.getContactId());
+      assertEquals(BASE_TEST_CONTACT_ID, phoneCallMissed.getContactId());
+   }
+
+   @Test
+   @Override
+   public void testSetContactId() {
+      phoneCallReceived.setContactId(BASE_TEST_CONTACT_ID_2);
+      phoneCallPlaced.setContactId(BASE_TEST_CONTACT_ID_2);
+      phoneCallMissed.setContactId(BASE_TEST_CONTACT_ID_2);
+      
+      assertEquals(BASE_TEST_CONTACT_ID_2, phoneCallReceived.getContactId());
+      assertEquals(BASE_TEST_CONTACT_ID_2, phoneCallPlaced.getContactId());
+      assertEquals(BASE_TEST_CONTACT_ID_2, phoneCallMissed.getContactId());
+   }
+
+   @Test
+   @Override
+   public void testGetSummaryText() {
+      assertEquals(TEST_MESSAGE_RECEIVED, phoneCallReceived.getSummaryText());
+      assertEquals(TEST_MESSAGE_PLACED, phoneCallPlaced.getSummaryText());
+      assertEquals(TEST_MESSAGE_MISSED, phoneCallMissed.getSummaryText());
+   }
+
+   @Test
+   @Override
+   public void testGetMessageText() {
+      assertEquals(TEST_MESSAGE_RECEIVED, phoneCallReceived.getMessageText());
+      assertEquals(TEST_MESSAGE_PLACED, phoneCallPlaced.getMessageText());
+      assertEquals(TEST_MESSAGE_MISSED, phoneCallMissed.getMessageText());
    }
 
    @Test
    public void testGetDurationSeconds() {
-      assertEquals(durationSecondsExpected, call.getDurationSeconds());
+      assertEquals(TEST_DURATION, phoneCallReceived.getDurationSeconds());
+      assertEquals(TEST_DURATION, phoneCallPlaced.getDurationSeconds());
+      assertEquals(0, phoneCallMissed.getDurationSeconds());
    }
 
    @Test
    public void testGetCallType() {
-      assertEquals(callTypeInput, call.getCallType());
+      assertEquals(TEST_TYPE_RECEIVED, phoneCallReceived.getCallType());
+      assertEquals(TEST_TYPE_PLACED, phoneCallPlaced.getCallType());
+      assertEquals(TEST_TYPE_MISSED, phoneCallMissed.getCallType());
    }
 
 }

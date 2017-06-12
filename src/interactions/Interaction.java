@@ -5,7 +5,7 @@ package interactions;
  * between two users. 
  * 
  */
-public class Interaction implements Comparable<Interaction> {
+public abstract class Interaction implements Comparable<Interaction> {
    
    private final long id;
    private long contactId;

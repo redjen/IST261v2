@@ -1,44 +1,36 @@
 package manual;
 
-import interactions.Email;
-import interactions.Interaction;
-import interactions.PhoneCall;
-import interactions.PhoneCallType;
+import interactions.Facebook;
+import interactions.FacebookType;
 import java.util.ArrayList;
-import java.util.Collections;
+import interactions.Sociable;
+import interactions.Tweet;
 
 /**
  * The TestHarness class runs manual tests required for assignments
- * 
+ *
  */
 public class TestHarness {
 
    public static void main(String[] args) {
-      testClassHierarchy();
+      testInterface();
    }
-   
-   /**
-    * Test method for M04A01
-    */
-   private static void testClassHierarchy() {
-      
-      ArrayList<Interaction> list = new ArrayList<>();
-      
-      Email email = new Email(101, 1000, "This is the message body.", "This is the message subject");
-      list.add(email);
-      PhoneCall placedCall = new PhoneCall(102, 1000, 505, PhoneCallType.PLACED);
-      list.add(placedCall);
-      PhoneCall missedCall = new PhoneCall(103, 1000, 0, PhoneCallType.MISSED);
-      list.add(missedCall);
-      Collections.sort(list);
-      
-      for (Interaction interaction : list) {
-         System.out.println(interaction.getSummaryText());
-         System.out.println();
-         System.out.println("--------------------------------------------------");
-         System.out.println();
+
+   public static void testInterface() {
+      ArrayList<Sociable> list = new ArrayList<>();
+
+      Sociable<String> facebookPost = new Facebook(393, 1000, "This is the message.",
+              "ab1930", "TestUser", FacebookType.STATUS);
+      list.add(facebookPost);
+      Sociable<Integer> tweetPost = new Tweet(1002, "TestTweeter", 10394, 1000, "This is the message");
+      list.add(tweetPost);
+      Sociable<String> facebookLink = new Facebook(293, 1000, "This is the message.",
+              "ab1930", "TestUser", FacebookType.LINK);
+      list.add(facebookLink);
+
+      for (Sociable sociable : list) { 
+         System.out.println(sociable.getRemoteURL());
       }
-   
    }
-   
+
 }

@@ -1,57 +1,67 @@
 package interactions;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
+/**
+ *
+ * @author redjen
+ */
+public class EmailTest extends InteractionTestBase<Email> {
 
-@RunWith(Parameterized.class)
-public class EmailTest {
-
+   private static final long TEST_ID = 9999;
+   private static final long TEST_CONTACT_ID = 7777;
+   private static final long TEST_CONTACT_ID_2 = 6666;
+   private static final long TEST_ID_2 = 4444;
+   private static final long TEST_ID_3 = 5555;
+   private final static String TEST_MESSAGE = "This is a test message";
+   private final static String TEST_SUBJECT = "This is a test subject";
    private final static String SUMMARY_TEXT_FORMAT = "Subject: %s%n%n%s";
 
-   private final long emailIdInput;
-   private final long emailContactIdInput;
-   private final String emailMessageTextInput;
-   private final String emailSubjectTextInput;
-   private final String emailSubjectTextExpected;
-   private final String emailSummaryTextExpected;
-   private Email email;
-
-   public EmailTest(long emailIdInput, long emailContactIdInput, String emailMessageTextInput, String emailSubjectTextInput, String emailSubjectTextExpected, String emailSummaryTextExpected) {
-      this.emailIdInput = emailIdInput;
-      this.emailContactIdInput = emailContactIdInput;
-      this.emailMessageTextInput = emailMessageTextInput;
-      this.emailSubjectTextInput = emailSubjectTextInput;
-      this.emailSubjectTextExpected = emailSubjectTextExpected;
-      this.emailSummaryTextExpected = emailSummaryTextExpected;
-   }
-
-   @Parameterized.Parameters
-   public static Collection data() {
-      return Arrays.asList(new Object[][]{
-         {100, 201, "Message body", "Message Subject", "Message Subject", String.format(SUMMARY_TEXT_FORMAT, "Message Subject", "Message body")},
-         {101, 201, "Message body\\nwith\\nline breaks", "Message Subject", "Message Subject", String.format(SUMMARY_TEXT_FORMAT, "Message Subject", "Message body\\nwith\\nline breaks")}
-      });
+   public EmailTest() {
+      super();
    }
 
    @Before
    public void setUp() {
-      email = new Email(emailIdInput, emailContactIdInput, emailMessageTextInput, emailSubjectTextInput);
+      interaction = new Email(TEST_ID, TEST_CONTACT_ID, TEST_MESSAGE, TEST_SUBJECT);
    }
 
    @Test
-   public void testGetMessageSummaryText() {
-      assertEquals(emailSummaryTextExpected, email.getSummaryText());
+   @Override
+   public void testGetSummaryText() {
+      assertEquals(String.format(SUMMARY_TEXT_FORMAT, TEST_SUBJECT, TEST_MESSAGE), interaction.getSummaryText());
+   }
+
+
+   @Test
+   @Override
+   public void testGetMessageText() {
+      assertEquals(TEST_MESSAGE, interaction.getMessageText());
+   }
+
+   @Test
+   public void testCompareTo() {
+      Email email2 = new Email(TEST_ID_2, TEST_CONTACT_ID, TEST_MESSAGE, TEST_SUBJECT);
+      Email email3 = new Email(TEST_ID_3, TEST_CONTACT_ID, TEST_MESSAGE, TEST_SUBJECT);
+
+      ArrayList<Email> emails = new ArrayList<>();
+      emails.add(interaction);
+      emails.add(email2);
+      emails.add(email3);
+      Collections.sort(emails);
+
+      assertEquals(TEST_ID_2, emails.get(0).getId());
+      assertEquals(TEST_ID_3, emails.get(1).getId());
+      assertEquals(TEST_ID, emails.get(2).getId());
    }
 
    @Test
    public void testGetSubject() {
-      assertEquals(emailSubjectTextExpected, email.getSubject());
+      assertEquals(TEST_SUBJECT, interaction.getSubject());
    }
 
 }
