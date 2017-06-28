@@ -1,6 +1,7 @@
 package contacts;
 
 import app.AppFrame;
+import dao.ContactDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -158,10 +159,7 @@ public class ContactController {
     * Creates contacts for testing purposes
     */
    private void createTestContacts() {
-      contactList.add("Delenn", "", "+999 3948-9293", "delenn@b5.example.com", "entilzha", "");
-      contactList.add("Arthur", "Dent", "", "adent@example.com", "lifestyleProblems", "arthur.dent");
-      contactList.add("Chrisjen", "Avasarala", "+999 3234-2363", "dus@un.exaple.com", "depUS_UN", "UN");
-      contactList.add("Paul", "Atreides", "", "", "muaddib", "");
-      contactList.add("Susanna", "Dean");
+      ContactDao dao = new ContactDao();
+      contactList.addAll(dao.getContacts());
    }
 }

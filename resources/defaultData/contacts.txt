@@ -1,0 +1,5 @@
+# Contacts to load for testing
+100,First1,Last1,206-555-1111,email1@example.com,twitter1,facebook1
+101,First2,Last2,206-555-2222,email2@example.com,twitter2,facebook2
+102,First3,Last3,206-555-3333,email3@example.com,twitter3,facebook3
+103,First4,Last4,206-555-4444,email4@example.com,twitter4,facebook4

@@ -1,6 +1,7 @@
 package contacts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ContactList is a collection of Contacts and methods to interact add, delete,
@@ -52,6 +53,15 @@ public class ContactList {
    }
 
    /**
+    * Adds a list of contacts
+    *
+    * @param newContacts
+    */
+   public void addAll(List<Contact> newContacts) {
+      contacts.addAll(newContacts);
+   }
+
+   /**
     * Updates a contact's attributes
     *
     * @param index
@@ -69,7 +79,8 @@ public class ContactList {
 
    /**
     * Deletes the specified contact
-    * @param index 
+    *
+    * @param index
     */
    public void remove(int index) {
       if (index >= 0 && index < contacts.size()) {
@@ -104,7 +115,8 @@ public class ContactList {
 
    /**
     * Returns the index of the last Contact
-    * @return 
+    *
+    * @return
     */
    public int getLastIndex() {
       return contacts.size() - 1;
@@ -112,7 +124,8 @@ public class ContactList {
 
    /**
     * Tests if the contact list is empty
-    * @return 
+    *
+    * @return
     */
    public boolean isEmpty() {
       return contacts.isEmpty();
