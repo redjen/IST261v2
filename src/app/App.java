@@ -1,6 +1,6 @@
 package app;
 
-import contacts.ContactController;
+import contacts.ContactListDetailController;
 /**
  * The App class represents
  * 
@@ -9,7 +9,7 @@ public class App {
    public static void main(String[] args) {
       
       
-      ContactController contactController = new ContactController();
+      ContactListDetailController cldc = new ContactListDetailController();
       
    }
 }

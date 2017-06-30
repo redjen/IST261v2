@@ -1,6 +1,7 @@
 package contacts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,6 +13,8 @@ public class ContactList {
 
    private final ArrayList<Contact> contacts;
    private long lastId;
+
+   private HashMap<Long, Contact> contactsById;
 
    public ContactList() {
       contacts = new ArrayList<>();
@@ -29,6 +32,7 @@ public class ContactList {
       lastId++;
       Contact c = new Contact(lastId, firstName, lastName);
       contacts.add(c);
+      contactsById.put(c.getId(), c);
       return contacts.size() - 1;
    }
 
@@ -49,6 +53,7 @@ public class ContactList {
       lastId++;
       Contact c = new Contact(lastId, firstName, lastName, phoneNumber, email, twitterId, facebookId);
       contacts.add(c);
+      contactsById.put(c.getId(), c);
       return contacts.size() - 1;
    }
 
@@ -58,7 +63,12 @@ public class ContactList {
     * @param newContacts
     */
    public void addAll(List<Contact> newContacts) {
-      contacts.addAll(newContacts);
+      for (Contact newContact : newContacts) {
+         if (newContact.getId() > lastId) {
+            lastId = newContact.getId();
+         }
+         contacts.add(newContact);
+      }
    }
 
    /**
@@ -111,6 +121,16 @@ public class ContactList {
          return null;
       }
 
+   }
+
+   /**
+    * Returns the contact with the specified ID
+    *
+    * @param id the ID
+    * @return the contact or null if it does not exist
+    */
+   public Contact getById(long id) {
+      return contactsById.get(id);
    }
 
    /**

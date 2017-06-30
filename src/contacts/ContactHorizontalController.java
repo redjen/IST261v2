@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
-public class ContactController {
+public class ContactHorizontalController {
 
    private final ContactList contactList;
    private final AppFrame appFrame;
-   private final ContactListView contactListView;
+   private final ContactListHorizontalView contactListView;
 
    private final ContactView contactView;
    private final JButton previousButton;
@@ -23,14 +23,14 @@ public class ContactController {
    private int currentContactIndex;
    private boolean isCreatingNewContact;
 
-   public ContactController() {
+   public ContactHorizontalController() {
 
       this.currentContactIndex = 0;
       isCreatingNewContact = false;
 
       contactList = new ContactList();
       appFrame = new AppFrame("Contacts");
-      contactListView = new ContactListView();
+      contactListView = new ContactListHorizontalView();
       appFrame.setContentPane(contactListView);
 
       contactView = contactListView.getContactView();
