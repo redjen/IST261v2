@@ -1,9 +1,7 @@
 package app;
 
-import contacts.ContactListDetailController;
-
 /**
- * The App class represents
+ * App is the application's main method
  * 
  */
 public class App {

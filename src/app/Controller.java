@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
- * The application controller class
+ * Controller for the application
  */
 public class Controller {
 
