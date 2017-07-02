@@ -3,9 +3,10 @@ package contacts;
 /**
  * The Contact class provides the attributes for a single contact and methods to
  * add, delete, and update those attributes.
- * 
+ *
  */
 public class Contact {
+
    private long id;
    private String firstName;
    private String lastName;
@@ -14,7 +15,7 @@ public class Contact {
    private String twitterId;
    private String facebookId;
 
-   public Contact(long id, String firstName, String lastName, String phoneNumber, 
+   public Contact(long id, String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
       this.id = id;
       this.firstName = firstName;
@@ -32,8 +33,18 @@ public class Contact {
    public Contact(long id) {
       this(id, "", "", "", "", "", "");
    }
-   
-   public void update(String firstName, String lastName, String phoneNumber, 
+
+   /**
+    * Updates all contact fields with new values
+    *
+    * @param firstName
+    * @param lastName
+    * @param phoneNumber
+    * @param email
+    * @param twitterId
+    * @param facebookId
+    */
+   public void update(String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
       this.firstName = firstName;
       this.lastName = lastName;
@@ -93,5 +104,5 @@ public class Contact {
 
    public void setFacebookId(String facebookId) {
       this.facebookId = facebookId;
-   }   
+   }
 }

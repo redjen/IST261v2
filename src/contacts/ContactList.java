@@ -14,31 +14,28 @@ public class ContactList {
    private final ArrayList<Contact> contacts;
    private long lastId;
 
-   private HashMap<Long, Contact> contactsById;
+   private final HashMap<Long, Contact> contactsById;
 
    public ContactList() {
       contacts = new ArrayList<>();
+      contactsById = new HashMap<>();
       lastId = 0;
    }
 
    /**
-    * Add a new contact at the end of the list and return its index
+    * Add a new contact at the end of the list and return its ID
     *
     * @param firstName
     * @param lastName
-    * @return
+    * @return the contact's ID
     */
-   public int add(String firstName, String lastName) {
-      lastId++;
-      Contact c = new Contact(lastId, firstName, lastName);
-      contacts.add(c);
-      contactsById.put(c.getId(), c);
-      return contacts.size() - 1;
+   public long add(String firstName, String lastName) {
+      return add(firstName, lastName, "", "", "", "");
    }
 
    /**
     * Add a new contact at the end of the list with all fields and returns its
-    * index
+    * IDl
     *
     * @param firstName
     * @param lastName
@@ -46,15 +43,16 @@ public class ContactList {
     * @param email
     * @param twitterId
     * @param facebookId
-    * @return
+    * @return the contact's unique ID
     */
-   public int add(String firstName, String lastName, String phoneNumber,
+   public long add(String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
       lastId++;
       Contact c = new Contact(lastId, firstName, lastName, phoneNumber, email, twitterId, facebookId);
       contacts.add(c);
       contactsById.put(c.getId(), c);
-      return contacts.size() - 1;
+
+      return c.getId();
    }
 
    /**
@@ -68,13 +66,14 @@ public class ContactList {
             lastId = newContact.getId();
          }
          contacts.add(newContact);
+         contactsById.put(newContact.getId(), newContact);
       }
    }
 
    /**
     * Updates a contact's attributes
     *
-    * @param index
+    * @param contactId
     * @param firstName
     * @param lastName
     * @param phoneNumber
@@ -82,19 +81,34 @@ public class ContactList {
     * @param twitterId
     * @param facebookId
     */
-   public void update(int index, String firstName, String lastName, String phoneNumber,
+   public void update(long contactId, String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
-      contacts.get(index).update(firstName, lastName, phoneNumber, email, twitterId, facebookId);
+      contactsById.get(contactId).update(firstName, lastName, phoneNumber, email, twitterId, facebookId);
    }
 
    /**
     * Deletes the specified contact
     *
-    * @param index
+    * @param contactId the ID of the contact to remove
     */
-   public void remove(int index) {
-      if (index >= 0 && index < contacts.size()) {
-         contacts.remove(index);
+   public void remove(long contactId) {
+      Contact contact;
+      if (contactsById.containsKey(contactId)) {
+         contact = contactsById.get(contactId);
+         contacts.remove(contact);
+         contactsById.remove(contactId);
+         System.out.printf("Removed contact %d%n", contactId);
+      }
+   }
+   
+   /**
+    * Deletes all specified contacts
+    * 
+    * @param contactIds list of contact IDs to remove
+    */
+   public void removeAll(List<Long> contactIds) {
+      for (Long contactId : contactIds) {
+         remove(contactId);
       }
    }
 
@@ -130,17 +144,16 @@ public class ContactList {
     * @return the contact or null if it does not exist
     */
    public Contact getById(long id) {
-      return contactsById.get(id);
+      Contact contact = null;
+
+      if (contactsById.containsKey(id)) {
+         contact = contactsById.get(id);
+      } else {
+         System.err.printf("Contact %d not found", id);
+      }
+      return contact;
    }
 
-   /**
-    * Returns the index of the last Contact
-    *
-    * @return
-    */
-   public int getLastIndex() {
-      return contacts.size() - 1;
-   }
 
    /**
     * Tests if the contact list is empty
@@ -150,29 +163,4 @@ public class ContactList {
    public boolean isEmpty() {
       return contacts.isEmpty();
    }
-
-   /**
-    * Convenience method for testing if there exists a contact at index - 1
-    *
-    * This method supports testing indices out of bounds.
-    *
-    * @param index the index to test
-    * @return true if there is a preceding index, otherwise false
-    */
-   public boolean hasPrevious(int index) {
-      return index > 0;
-   }
-
-   /**
-    * Convenience method for testing if there exists a contact at index + 1
-    *
-    * This method supports testing indices out of bounds.
-    *
-    * @param index the index to test
-    * @return true if there is a following index, otherwise false
-    */
-   public boolean hasNext(int index) {
-      return index + 1 < contacts.size();
-   }
-
 }

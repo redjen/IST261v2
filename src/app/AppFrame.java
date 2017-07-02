@@ -4,13 +4,13 @@ import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * The AppFrame class represents
+ * The main frame of the application
+ * 
+ * 
  *
  */
 public class AppFrame extends JFrame {

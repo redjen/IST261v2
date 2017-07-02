@@ -1,5 +1,6 @@
-package contacts;
+package app;
 
+import contacts.Contact;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,17 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * ContactView is the view for displaying a contact
- *
- * I split the view for this assignment into two separate views. I couldn't
- * get the elements in the contact view to line up nicely with the buttons,
- * and just gave up after burning way too much time on it.
- *
+ * ContactDetailView is the view for displaying a contact view. It is part of
+ * the "detail" portion of the list-detail pattern. It provides methods to 
+ * display a contact's data and can also be used as a form for creating new
+ * contacts.
  */
-public class ContactView extends JPanel {
+public class ContactDetailView extends JPanel {
 
    private static final String ICON_PATH = "resources/icons/contact/";
    private static final String PERSON_ICON = ICON_PATH + "ic_person_36pt_3x.png";
+   private final Controller controller;
+   private Contact currentContact;
 
    private final JTextField firstNameField;
    private final JTextField lastNameField;
@@ -29,8 +30,29 @@ public class ContactView extends JPanel {
    private final JTextField twitterField;
    private final JTextField facebookField;
 
-   public ContactView() {
+   /**
+    * Constructs a new ContactDetailView and displays the specified contact's
+    * information
+    * 
+    * @param controller the application controller
+    * @param row the index of the table model row for the contact to be displayed
+    */
+   public ContactDetailView(Controller controller, int row) {
+      this(controller);
+
+      this.currentContact = controller.getContact(row);
+      updateView();
+   }
+
+   /**
+    * Constructs an empty ContactDetailView 
+    * @param controller the application controller
+    */
+   public ContactDetailView(Controller controller) {
       super();
+
+      this.controller = controller;
+
       imageField = new JLabel(new ImageIcon(PERSON_ICON), JLabel.LEFT);
       imageField.setBounds(0, 0, 36, 36);
 
@@ -43,22 +65,6 @@ public class ContactView extends JPanel {
 
       setupViewLayout();
       setOpaque(true);
-      setVisible(true);
-   }
-
-   /**
-    * Updates the current view to show the specified contact
-    *
-    * @param contact
-    */
-   public void updateView(Contact contact) {
-
-      firstNameField.setText(contact.getFirstName());
-      lastNameField.setText(contact.getLastName());
-      phoneNumberField.setText(contact.getPhoneNumber());
-      emailField.setText(contact.getEmail());
-      twitterField.setText(contact.getTwitterId());
-      facebookField.setText(contact.getFacebookId());
    }
 
    /**
@@ -95,6 +101,27 @@ public class ContactView extends JPanel {
 
    public JTextField getFacebookField() {
       return facebookField;
+   }
+   
+   public long getCurrentContactId() {
+      if (currentContact != null) {
+         return currentContact.getId();
+      } else {
+         return -1;
+      }
+   }
+
+   /**
+    * Updates the current view to show the specified contact
+    */
+   private void updateView() {
+
+      firstNameField.setText(currentContact.getFirstName());
+      lastNameField.setText(currentContact.getLastName());
+      phoneNumberField.setText(currentContact.getPhoneNumber());
+      emailField.setText(currentContact.getEmail());
+      twitterField.setText(currentContact.getTwitterId());
+      facebookField.setText(currentContact.getFacebookId());
    }
 
    /**
