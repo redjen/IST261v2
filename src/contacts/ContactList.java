@@ -1,7 +1,6 @@
 package contacts;
 
-import dao.ContactDao;
-import dao.ContactDaoFactory;
+import dao.PersistDataController;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,21 +14,21 @@ public class ContactList {
 
    private final ArrayList<Contact> contacts;
    private long lastId;
-   private final ContactDao dao;
+   private final PersistDataController persistDataController;
 
    private final HashMap<Long, Contact> contactsById;
 
-   public ContactList() {
+   public ContactList(PersistDataController persistDataController) {
+      this.persistDataController = persistDataController;
       contacts = new ArrayList<>();
       contactsById = new HashMap<>();
-      dao = ContactDaoFactory.getDao();
       lastId = 0;
       
-      contacts.addAll(dao.getContacts());
+      contacts.addAll(persistDataController.getContacts());
       // get test contacts if none were previously saved
       if (contacts.isEmpty()) {
          System.out.println("No saved contacts, getting test contacts");
-         contacts.addAll(dao.getTestContacts());         
+         contacts.addAll(persistDataController.getTestContacts());         
       }
       reIndexContacts();      
    }

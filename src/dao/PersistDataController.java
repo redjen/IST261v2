@@ -1,39 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package dao;
 
 import contacts.Contact;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The ContactDaoTextImpl is a very simple Dao for storing and retrieving
- * contacts.
  *
- * This was used only used to get stored contact data for testing. It's being
- * retained for historical and possible future purposes.
- *
+ * @author redjen
  */
-@Deprecated
-public class ContactDaoTextImpl implements ContactDao {
+public class PersistDataController {
 
    private final static String DATA_FILE = "resources/defaultData/contacts.txt";
 
-   public ContactDaoTextImpl() {
+   public PersistDataController() {
    }
 
-   /**
-    * {@inheritDoc }
-    */
-   @Override
-   public ArrayList<Contact> getContacts() {
-      return new ArrayList<>();
-   }
-
-   @Override
    public ArrayList<Contact> getTestContacts() {
       ArrayList contacts = new ArrayList();
 
@@ -50,15 +40,16 @@ public class ContactDaoTextImpl implements ContactDao {
 
          }
       } catch (FileNotFoundException ex) {
-         Logger.getLogger(ContactDaoTextImpl.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
       }
 
       return contacts;
    }
 
-   @Override
-   public void saveContacts(List<Contact> contacts) {
-      // no-op
+   public ArrayList<Contact> getContacts() {
+      ArrayList<Contact> list = new ArrayList<>();
+
+      return list;
    }
 
 }

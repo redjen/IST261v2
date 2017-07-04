@@ -3,7 +3,7 @@ package app;
 import contacts.Contact;
 import contacts.ContactList;
 import contacts.ContactTableModel;
-import dao.ContactDaoTextImpl;
+import dao.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import javax.swing.JTable;
  */
 public class Controller {
 
+   private final PersistDataController persistDataController;
    private final ContactList contactList;
    private final ContactTableModel contactTableModel;
    private boolean isCreatingNewContact;
@@ -25,9 +26,11 @@ public class Controller {
 
    public Controller() {
 
+      persistDataController = new PersistDataController();
+      
       isCreatingNewContact = false;
-
-      contactList = new ContactList();
+      
+      contactList = new ContactList(persistDataController);
       contactTableModel = new ContactTableModel(contactList);
 
       appFrame = new AppFrame("Contacts");
