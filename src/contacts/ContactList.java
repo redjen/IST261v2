@@ -28,8 +28,10 @@ public class ContactList {
       contacts.addAll(dao.getContacts());
       // get test contacts if none were previously saved
       if (contacts.isEmpty()) {
-         contacts.addAll(dao.getTestContacts());
+         System.out.println("No saved contacts, getting test contacts");
+         contacts.addAll(dao.getTestContacts());         
       }
+      reIndexContacts();
       
    }
 
@@ -173,5 +175,15 @@ public class ContactList {
     */
    public boolean isEmpty() {
       return contacts.isEmpty();
+   }
+   
+   /**
+    * Regenerates the HashMap "indexes" for the contact list
+    */
+   private void reIndexContacts() {
+      contactsById.clear();
+      for (Contact contact : contacts) {
+         contactsById.put(contact.getId(), contact);
+      }
    }
 }
