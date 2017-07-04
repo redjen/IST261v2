@@ -30,8 +30,7 @@ public class ContactDaoTextImpl implements ContactDao {
     */
    @Override
    public ArrayList<Contact> getContacts() {
-      // unused pre M07
-      return getTestContacts();
+      return new ArrayList<>();
    }
 
    @Override
