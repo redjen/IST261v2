@@ -1,5 +1,7 @@
 package contacts;
 
+import dao.ContactDao;
+import dao.ContactDaoFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +15,22 @@ public class ContactList {
 
    private final ArrayList<Contact> contacts;
    private long lastId;
+   private final ContactDao dao;
 
    private final HashMap<Long, Contact> contactsById;
 
    public ContactList() {
       contacts = new ArrayList<>();
       contactsById = new HashMap<>();
+      dao = ContactDaoFactory.getDao();
       lastId = 0;
+      
+      contacts.addAll(dao.getContacts());
+      // get test contacts if none were previously saved
+      if (contacts.isEmpty()) {
+         contacts.addAll(dao.getTestContacts());
+      }
+      
    }
 
    /**
