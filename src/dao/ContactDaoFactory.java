@@ -9,6 +9,6 @@ package dao;
 public class ContactDaoFactory {
    
    public static ContactDao getDao() {
-      return new ContactDaoSerializationImpl();
+      return new ContactDaoTextImpl();
    }
 }

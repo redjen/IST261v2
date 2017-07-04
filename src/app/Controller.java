@@ -28,7 +28,6 @@ public class Controller {
       isCreatingNewContact = false;
 
       contactList = new ContactList();
-      createTestContacts();
       contactTableModel = new ContactTableModel(contactList);
 
       appFrame = new AppFrame("Contacts");
@@ -244,11 +243,4 @@ public class Controller {
 
    }
 
-   /**
-    * Creates contacts for testing purposes
-    */
-   private void createTestContacts() {
-      ContactDaoTextImpl dao = new ContactDaoTextImpl();
-      contactList.addAll(dao.getContacts());
-   }
 }
