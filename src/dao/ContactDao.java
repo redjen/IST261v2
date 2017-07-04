@@ -18,10 +18,11 @@ public interface ContactDao {
    public ArrayList<Contact> getContacts();
    
    /**
-    * Returns a list of existing test contacts
+    * Returns a list of test contacts from a predefined text file. The list
+    * should be persisted before being returned.
     * 
     * Per assignment requirements, this method should be called whenever there
-    * are no persisted contacts
+    * are no persisted contacts. 
     * 
     * @return the list of contacts
     */
