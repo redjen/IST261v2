@@ -1,12 +1,17 @@
-package contacts;
+package data.contact;
+
+import data.DataListItem;
+import java.io.Serializable;
 
 /**
  * The Contact class provides the attributes for a single contact and methods to
  * add, delete, and update those attributes.
  *
  */
-public class Contact {
+public class Contact implements  DataListItem, Serializable {
 
+   private static final long serialVersionUID = 200L;
+   
    private long id;
    private String firstName;
    private String lastName;
@@ -54,6 +59,7 @@ public class Contact {
       this.facebookId = facebookId;
    }
 
+   @Override
    public long getId() {
       return id;
    }

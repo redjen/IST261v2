@@ -1,6 +1,6 @@
 package app;
 
-import contacts.ContactTableModel;
+import data.contact.ContactTableModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;

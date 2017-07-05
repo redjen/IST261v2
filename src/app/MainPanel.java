@@ -1,6 +1,6 @@
 package app;
 
-import contacts.ContactTableModel;
+import data.contact.ContactTableModel;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 

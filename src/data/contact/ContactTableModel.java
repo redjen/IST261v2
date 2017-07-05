@@ -1,4 +1,4 @@
-package contacts;
+package data.contact;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -48,15 +48,18 @@ public class ContactTableModel extends AbstractTableModel {
     */
    @Override
    public Object getValueAt(int rowIndex, int columnIndex) {
+      
+      Contact c = contactList.get(rowIndex);
+      
       switch (columnIndex) {
          case 0:
-            return (Object) contactList.get(rowIndex).getId();
+            return (Object) c.getId();
          case 1:
-            return (Object) contactList.get(rowIndex).getFirstName();
+            return (Object) c.getFirstName();
          case 2:
-            return (Object) contactList.get(rowIndex).getLastName();
+            return (Object) c.getLastName();
          case 3:
-            return (Object) contactList.get(rowIndex).getPhoneNumber();
+            return (Object) c.getPhoneNumber();
          default:
             return null;
       }

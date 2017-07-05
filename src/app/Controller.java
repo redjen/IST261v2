@@ -1,11 +1,13 @@
 package app;
 
-import contacts.Contact;
-import contacts.ContactList;
-import contacts.ContactTableModel;
+import data.contact.Contact;
+import data.contact.ContactList;
+import data.contact.ContactTableModel;
 import dao.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JTable;
 
@@ -27,10 +29,11 @@ public class Controller {
    public Controller() {
 
       persistDataController = new PersistDataController();
-      
+
       isCreatingNewContact = false;
-      
-      contactList = new ContactList(persistDataController);
+
+      contactList = persistDataController.getContacts();
+
       contactTableModel = new ContactTableModel(contactList);
 
       appFrame = new AppFrame("Contacts");
@@ -61,7 +64,7 @@ public class Controller {
       long contactId;
 
       contactId = (long) contactTableModel.getValueAt(row, 0);
-      contact = contactList.getById(contactId);
+      contact = contactList.getById((long) contactId);
 
       return contact;
    }
@@ -190,10 +193,23 @@ public class Controller {
       mainPanel.setTableVisible(true);
    }
 
+   private void handleExit() {
+      persistDataController.writeData();
+      appFrame.dispose();
+   }
+
    /**
     * Sets action listeners on controls
     */
    private void addListeners() {
+
+      appFrame.addWindowListener(new WindowAdapter() {
+         @Override
+         public void windowClosing(WindowEvent e) {
+            System.out.println("closing");
+            handleExit();
+         }
+      });
 
       mainPanel.getDetailPanel().getTableButton().addActionListener(new ActionListener() {
          @Override
