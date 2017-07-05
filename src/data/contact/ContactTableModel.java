@@ -1,46 +1,18 @@
 package data.contact;
 
-import javax.swing.table.AbstractTableModel;
+import data.AbstractDataListTableModel;
 
 /**
  * ContactTableModel is table model for use with tables that display a list
  * of contacts.
  *
  */
-public class ContactTableModel extends AbstractTableModel {
+public class ContactTableModel extends AbstractDataListTableModel<ContactList> {
 
    private static final String[] COLUMN_NAMES = {"ID", "First Name", "Last Name", "Phone"};
-   private final ContactList contactList;
 
    public ContactTableModel(ContactList contactList) {
-      super();
-      this.contactList = contactList;
-   }
-
-   /**
-    * {@inheritDoc }
-    */
-
-   @Override
-   public int getRowCount() {
-      return contactList.size();
-   }
-
-   /**
-    * {@inheritDoc }
-    */
-
-   @Override
-   public int getColumnCount() {
-      return COLUMN_NAMES.length;
-   }
-
-   /**
-    * {@inheritDoc }
-    */
-   @Override
-   public String getColumnName(int index) {
-      return COLUMN_NAMES[index];
+      super(contactList, COLUMN_NAMES);
    }
 
    /**
@@ -48,9 +20,9 @@ public class ContactTableModel extends AbstractTableModel {
     */
    @Override
    public Object getValueAt(int rowIndex, int columnIndex) {
-      
-      Contact c = contactList.get(rowIndex);
-      
+
+      Contact c = (Contact) dataList.get(rowIndex);
+
       switch (columnIndex) {
          case 0:
             return (Object) c.getId();
@@ -64,15 +36,7 @@ public class ContactTableModel extends AbstractTableModel {
             return null;
       }
    }
-
-   /**
-    * {@inheritDoc }
-    */
-   @Override
-   public boolean isCellEditable(int row, int col) {
-      return (col > 0);
-
-   }
+   
 
    /**
     * {@inheritDoc }
@@ -80,9 +44,9 @@ public class ContactTableModel extends AbstractTableModel {
    @Override
    public void setValueAt(Object value, int row, int col) {
       String newValue = (String) value;
-      Contact contact = contactList.get(row);
+      Contact contact = (Contact) dataList.get(row);
       switch (col) {
-         case 1: 
+         case 1:
             contact.setFirstName(newValue);
             break;
          case 2:
@@ -95,5 +59,10 @@ public class ContactTableModel extends AbstractTableModel {
             break;
       }
       fireTableCellUpdated(row, col);
+   }
+
+   @Override
+   public boolean isCellEditable(int row, int col) {
+      return (col > 0);
    }
 }

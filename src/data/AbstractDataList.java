@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * The AbstractDataList class represents
+ * The AbstractDataList is the base class for DataList objects
  *
- * @param <T>
+ * @param <T> the type of DataListItem for the instance
+ * 
+ * @see DataList
  */
 public abstract class AbstractDataList<T extends DataListItem> implements DataList<T>, Serializable {
 
@@ -28,7 +30,7 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
       itemsById.put(item.getId(), item);
       return item.getId();
    }
-   
+
    @Override
    public void addAll(List<T> newItems) {
       for (T newItem : newItems) {
@@ -53,6 +55,10 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
       }
 
       return item;
+   }
+
+   protected ArrayList<T> getAllItems() {
+      return items;
    }
 
    @Override
@@ -80,10 +86,11 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
    public int size() {
       return items.size();
    }
-   
+
    /**
     * Returns the next available ID
-    * @return 
+    *
+    * @return
     */
    protected long getNextId() {
       nextId++;

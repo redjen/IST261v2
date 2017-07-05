@@ -56,7 +56,7 @@ public abstract class AbstractInteraction implements Comparable<AbstractInteract
 
    @Override
    public int compareTo(AbstractInteraction o) {
-      return Long.compare(id, o.getId());
+      return o.getTimestamp().compareTo(this.getTimestamp());
    }
 
 }
