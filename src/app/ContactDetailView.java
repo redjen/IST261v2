@@ -142,26 +142,10 @@ public class ContactDetailView extends JPanel {
       gbc.anchor = GridBagConstraints.BASELINE;
       gbc.gridy = 0;
       gbc.gridx = 0;
-      gbc.gridheight = 2;
-      gbc.weightx = 0;
-      add(imageField, gbc);
-      gbc.gridx++;
-
-      // first name
-      gbc.anchor = GridBagConstraints.SOUTHWEST;
-      gbc.gridheight = 1;
-      gbc.weightx = 1.0;
-      add(firstNameField, gbc);
-      gbc.gridx++;
-
-      // last name
-      gbc.anchor = GridBagConstraints.NORTHWEST;
       gbc.gridy++;
-      gbc.gridx = 1;
-      gbc.weightx = 1.0;
-      add(lastNameField, gbc);
-      gbc.gridy++;
-
+              
+      insertRow(firstNameField, "First name", gbc);
+      insertRow(lastNameField, "Last name", gbc);
       insertRow(phoneNumberField, "Phone", gbc);
       insertRow(emailField, "Email", gbc);
       insertRow(twitterField, "Twitter", gbc);
@@ -179,11 +163,13 @@ public class ContactDetailView extends JPanel {
    private void insertRow(JTextField jtf, String label, GridBagConstraints gbc) {
 
       JLabel jLabel = new JLabel(label);
+      jLabel.setHorizontalAlignment(JLabel.LEFT);
       // label
       gbc.weighty = 0;
       gbc.weightx = 0;
       gbc.fill = GridBagConstraints.NONE;
       gbc.gridx = 0;
+      gbc.anchor = GridBagConstraints.WEST;
 
       add(jLabel, gbc);
       gbc.gridx++;
