@@ -27,6 +27,10 @@ public class PersistDataController {
 
    public PersistDataController() {
       data = readData();
+      
+      if (data == null || data.getContactList().size() == 0) {
+         data = createSerializedDataCollection();
+      }
 
    }
 
