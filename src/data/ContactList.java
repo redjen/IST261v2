@@ -1,7 +1,5 @@
-package data.contact;
+package data;
 
-import data.DataList;
-import data.AbstractDataList;
 import java.io.Serializable;
 
 /**
@@ -11,7 +9,7 @@ import java.io.Serializable;
  */
 public class ContactList extends AbstractDataList<Contact> implements DataList<Contact>, Serializable {
 
-   private static final long serialVersionUID = 100L;
+   private static final long serialVersionUID = 3L;
 
    /**
     * Constructs a new ContactList populated with test contacts

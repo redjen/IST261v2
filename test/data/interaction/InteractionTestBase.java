@@ -1,5 +1,6 @@
 package data.interaction;
 
+import data.AbstractInteraction;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

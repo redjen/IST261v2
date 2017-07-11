@@ -1,6 +1,5 @@
-package data.interaction;
+package data;
 
-import data.DataListItem;
 import java.time.ZonedDateTime;
 
 /**
@@ -17,10 +16,14 @@ public abstract class AbstractInteraction implements Comparable<AbstractInteract
    private final String iconLocation;
 
    public AbstractInteraction(long id, long contactId, String messageText, String iconLocation) {
+      this(id, contactId, messageText, ZonedDateTime.now().toString(), iconLocation);
+   }
+
+   public AbstractInteraction(long id, long contactId, String messageText, String timestampString, String iconLocation) {
       this.id = id;
       this.contactId = contactId;
       this.messageText = messageText;
-      this.timestamp = ZonedDateTime.now();
+      this.timestamp = ZonedDateTime.parse(timestampString);
       this.iconLocation = iconLocation;
    }
 

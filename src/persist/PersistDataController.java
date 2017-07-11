@@ -1,7 +1,9 @@
 package persist;
 
-import data.contact.Contact;
-import data.contact.ContactList;
+import data.Contact;
+import data.ContactList;
+import data.AbstractInteraction;
+import data.TextMessage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,49 +18,23 @@ import java.util.logging.Logger;
 
 /**
  * PersistDataController is responsible for reading and writing persisted data
- * 
+ *
  */
 public class PersistDataController {
 
    private final static String DATA_FILE = "data.ser";
    private final static String TEST_CONTACTS_DATA_FILE = "resources/defaultData/contacts.txt";
+   private final static String TEST_INTERACTIONS_DATA_FILE = "resources/defaultData/interactions.txt";
 
    private SerializedDataCollection data;
 
    public PersistDataController() {
       data = readData();
-      
+
       if (data == null || data.getContactList().size() == 0) {
-         data = createSerializedDataCollection();
+         data = createTestSerializedDataCollection();
       }
 
-   }
-
-   /**
-    * Reads and returns test contacts from the predefined data file.
-    *
-    * @return
-    */
-   public ArrayList<Contact> getTestContacts() {
-      ArrayList contacts = new ArrayList();
-
-      try (Scanner scanner = new Scanner(new File(TEST_CONTACTS_DATA_FILE))) {
-         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.charAt(0) != '#') {
-               Contact contact = null;
-               String[] tokens = line.split(",");
-               contact = new Contact(Long.parseLong(tokens[0]), tokens[1], tokens[2],
-                       tokens[3], tokens[4], tokens[5], tokens[6]);
-               contacts.add(contact);
-            }
-
-         }
-      } catch (FileNotFoundException ex) {
-         Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
-      }
-
-      return contacts;
    }
 
    /**
@@ -83,7 +59,7 @@ public class PersistDataController {
       File dataFile = new File(DATA_FILE);
 
       if (!dataFile.exists()) {
-         return createSerializedDataCollection();
+         return createTestSerializedDataCollection();
       }
 
       try (java.io.FileInputStream fis = new FileInputStream(dataFile);
@@ -93,7 +69,7 @@ public class PersistDataController {
 
       } catch (FileNotFoundException ex) {
          Logger.getLogger(PersistDataController.class.getName()).log(Level.INFO, "Data file not found, using test data");
-         newData = createSerializedDataCollection();
+         newData = createTestSerializedDataCollection();
       } catch (IOException | ClassNotFoundException ex) {
          Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -119,6 +95,8 @@ public class PersistDataController {
       }
 
    }
+   
+   
 
    /**
     * Constructs a new SerializedDataCollection when no data has been persisted
@@ -126,10 +104,56 @@ public class PersistDataController {
     *
     * @return a new SerializedDataCollection
     */
-   private SerializedDataCollection createSerializedDataCollection() {
+   private SerializedDataCollection createTestSerializedDataCollection() {
       SerializedDataCollection sdc = new SerializedDataCollection();
       sdc.getContactList().addAll(getTestContacts());
+      sdc.getInteractionList().addAll(getTestInteractions());
       return sdc;
    }
 
+   /**
+    * Reads and returns test contacts from the predefined data file.
+    *
+    * @return
+    */
+   private ArrayList<Contact> getTestContacts() {
+      ArrayList contacts = new ArrayList();
+
+      try (Scanner scanner = new Scanner(new File(TEST_CONTACTS_DATA_FILE))) {
+         while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            if (line.charAt(0) != '#') {
+               
+               String[] tokens = line.split(",");
+               contacts.add(new Contact(Long.parseLong(tokens[0]), tokens[1], tokens[2],
+                       tokens[3], tokens[4], tokens[5], tokens[6]));
+            }
+
+         }
+      } catch (FileNotFoundException ex) {
+         Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+      return contacts;
+   }
+   
+   private ArrayList<AbstractInteraction> getTestInteractions() {
+      ArrayList<AbstractInteraction> interactions = new ArrayList<>();
+      
+      try (Scanner scanner = new Scanner(new File(TEST_INTERACTIONS_DATA_FILE))) {
+         scanner.useDelimiter(",");
+         while (scanner.hasNextLine()) {
+            int interactionId = scanner.nextInt();
+            int contactId = scanner.nextInt();
+            String timestampString = scanner.next();
+            String message = scanner.nextLine();
+            interactions.add(new TextMessage(interactionId, contactId, message, timestampString));
+            
+         }
+      } catch (FileNotFoundException ex) {
+         Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      
+      return interactions;
+   }
 }

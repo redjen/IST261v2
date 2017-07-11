@@ -1,7 +1,7 @@
 package persist;
 
-import data.contact.ContactList;
-import data.interaction.InteractionList;
+import data.ContactList;
+import data.InteractionList;
 import java.io.Serializable;
 
 /**
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class SerializedDataCollection implements Serializable {
 
-   private static final long serialVersionUID = 301L;
+   private static final long serialVersionUID = 3L;
 
    private final ContactList contactList;
    private final InteractionList interactionList;

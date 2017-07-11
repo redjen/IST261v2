@@ -1,6 +1,6 @@
 package app;
 
-import data.contact.Contact;
+import data.Contact;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

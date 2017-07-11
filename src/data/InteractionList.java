@@ -1,10 +1,9 @@
-package data.interaction;
+package data;
 
-import data.AbstractDataList;
-import data.DataList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 /**
  * InteractionList is a list of Interaction lists and methods to control them.
@@ -15,8 +14,8 @@ import java.util.HashMap;
 public class InteractionList extends AbstractDataList<AbstractInteraction>
         implements DataList<AbstractInteraction>, Serializable {
 
-   private static final long serialVersionUID = 600L;
-   private final HashMap<Long, ArrayList<AbstractInteraction>> itemsByContactId;
+   private static final long serialVersionUID = 3L;
+   private final HashMap<Long, TreeSet<AbstractInteraction>> itemsByContactId;
 
    public InteractionList() {
       super();
@@ -45,7 +44,7 @@ public class InteractionList extends AbstractDataList<AbstractInteraction>
       if (itemsByContactId.containsKey(item.getContactId())) {
          itemsByContactId.get(item.getContactId()).add(item);
       } else {
-         ArrayList<AbstractInteraction> list = new ArrayList<>();
+         TreeSet<AbstractInteraction> list = new TreeSet<>();
          add(item);
          itemsByContactId.put(item.getContactId(), list);
       }

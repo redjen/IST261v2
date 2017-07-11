@@ -1,4 +1,4 @@
-package data.interaction;
+package data;
 
 import java.io.Serializable;
 
@@ -9,10 +9,13 @@ import java.io.Serializable;
 public class TextMessage extends AbstractInteraction implements Serializable {
 
    private static final String ICON_LOCATION = "resources/interaction/ic_message_18pt";
-   private static final long serialVersionUID = 500L;
+   private static final long serialVersionUID = 3L;
 
    public TextMessage(long id, long contactId, String messageText) {
       super(id, contactId, messageText, ICON_LOCATION);
    }
    
+   public TextMessage(long id, long contactId, String messageText, String timestampString) {
+      super(id, contactId, messageText, timestampString, ICON_LOCATION);
+   }
 }

@@ -1,6 +1,4 @@
-package data.interaction;
-
-import data.AbstractDataListTableModel;
+package data;
 
 /**
  * The InteractionTableModel class represents

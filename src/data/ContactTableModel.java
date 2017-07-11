@@ -1,6 +1,4 @@
-package data.contact;
-
-import data.AbstractDataListTableModel;
+package data;
 
 /**
  * ContactTableModel is table model for use with tables that display a list

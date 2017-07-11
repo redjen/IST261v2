@@ -1,8 +1,8 @@
 package app;
 
-import data.contact.Contact;
-import data.contact.ContactList;
-import data.contact.ContactTableModel;
+import data.Contact;
+import data.ContactList;
+import data.ContactTableModel;
 import persist.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

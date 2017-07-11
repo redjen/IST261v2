@@ -1,6 +1,5 @@
-package data.contact;
+package data;
 
-import data.DataListItem;
 import java.io.Serializable;
 
 /**
@@ -10,7 +9,7 @@ import java.io.Serializable;
  */
 public class Contact implements  DataListItem, Serializable {
 
-   private static final long serialVersionUID = 200L;
+   private static final long serialVersionUID = 3L;
    
    private long id;
    private String firstName;
