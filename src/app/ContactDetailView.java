@@ -29,6 +29,8 @@ public class ContactDetailView extends JPanel {
    private final JTextField emailField;
    private final JTextField twitterField;
    private final JTextField facebookField;
+   
+   private final InteractionDetailView interactions;
 
    /**
     * Constructs a new ContactDetailView and displays the specified contact's
@@ -62,6 +64,8 @@ public class ContactDetailView extends JPanel {
       emailField = new JTextField();
       twitterField = new JTextField();
       facebookField = new JTextField();
+      // TODO remove prototype InteractionDetailView
+      interactions = new InteractionDetailView(controller, 0);
 
       setupViewLayout();
       setOpaque(true);
@@ -150,6 +154,10 @@ public class ContactDetailView extends JPanel {
       insertRow(emailField, "Email", gbc);
       insertRow(twitterField, "Twitter", gbc);
       insertRow(facebookField, "Facebook", gbc);
+      
+      gbc.gridwidth = 2;
+      gbc.gridx = 0;
+      add(interactions, gbc);
 
    }
 
