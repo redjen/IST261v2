@@ -40,7 +40,7 @@ public class Controller {
       mainPanel = new MainPanel(contactTableModel);
       appFrame.setContentPane(mainPanel);
 
-      contactListTable = mainPanel.getTablePanel().getContactTable();
+      contactListTable = mainPanel.getContactTablePanel().getContactTable();
       contactListTable.setAutoCreateRowSorter(true);
 
       appFrame.setVisible(true);
@@ -76,8 +76,8 @@ public class Controller {
     */
    private void getDetailView(int row) {
       contactView = new ContactDetailView(this, row);
-      mainPanel.getDetailPanel().setContent(contactView);
-      mainPanel.setDetailVisible(true);
+      mainPanel.getContactDetailPanel().setContent(contactView);
+      mainPanel.setContactDetailVisible(true);
    }
 
    /**
@@ -172,8 +172,8 @@ public class Controller {
     */
    private void handleAddButton() {
       contactView = new ContactDetailView(Controller.this);
-      mainPanel.getDetailPanel().setContent(contactView);
-      mainPanel.setDetailVisible(true);
+      mainPanel.getContactDetailPanel().setContent(contactView);
+      mainPanel.setContactDetailVisible(true);
       isCreatingNewContact = true;
    }
 
@@ -182,15 +182,15 @@ public class Controller {
     */
    private void unloadContactView() {
       contactView = null;
-      mainPanel.getDetailPanel().setContent(null);
-      mainPanel.setTableVisible(true);
+      mainPanel.getContactDetailPanel().setContent(null);
+      mainPanel.setContactTableVisible(true);
    }
 
    /**
     * Handler for showing the table view from the detail view
     */
    private void handleTableButton() {
-      mainPanel.setTableVisible(true);
+      mainPanel.setContactTableVisible(true);
    }
 
    /**
@@ -216,49 +216,49 @@ public class Controller {
          }
       });
 
-      mainPanel.getDetailPanel().getTableButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getTableButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleTableButton();
          }
       });
 
-      mainPanel.getTablePanel().getDetailButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getDetailButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDetailButton();
          }
       });
 
-      mainPanel.getTablePanel().getDeleteContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getDeleteContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDeleteTableButton();
          }
       });
 
-      mainPanel.getDetailPanel().getDeleteContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getDeleteContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDeleteDetailButton();
          }
       });
 
-      mainPanel.getTablePanel().getAddContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getAddContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleAddButton();
          }
       });
 
-      mainPanel.getDetailPanel().getAddContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getAddContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleAddButton();
          }
       });
 
-      mainPanel.getDetailPanel().getSaveContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getSaveContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleSaveButton();
