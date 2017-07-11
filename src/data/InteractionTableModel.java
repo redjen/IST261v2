@@ -1,6 +1,9 @@
 package data;
 
 import app.Controller;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * The InteractionTableModel class represents
@@ -8,7 +11,7 @@ import app.Controller;
  */
 public class InteractionTableModel extends AbstractDataListTableModel<InteractionList> {
 
-   private static final String[] COLUMN_NAMES = {"ID", "Contact Name", "Time"};
+   private static final String[] COLUMN_NAMES = {"ID", "Contact Name", "Time", "Message"};
    private final Controller controller;
 
    public InteractionTableModel(InteractionList interactionList, Controller controller) {
@@ -33,7 +36,11 @@ public class InteractionTableModel extends AbstractDataListTableModel<Interactio
                return (Object) "";
             }
          case 2:
-            return (Object) interaction.getTimestamp().toString();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/y h:m a");
+            LocalDateTime ldt = interaction.getTimestamp().toLocalDateTime();
+            return (Object) ldt.format(dtf);
+         case 3:
+            return (Object) interaction.getSummaryText();
          default:
             return null;
       }
