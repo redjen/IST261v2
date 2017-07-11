@@ -1,6 +1,8 @@
 package data;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * AbstractInteraction is a base class providing attributes and methods for an
@@ -55,6 +57,11 @@ public abstract class AbstractInteraction implements Comparable<AbstractInteract
 
    public ZonedDateTime getTimestamp() {
       return timestamp;
+   }
+
+   public String getLocalTimestampString() {
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/y h:m a");
+      return timestamp.toLocalDateTime().format(dtf);
    }
 
    @Override

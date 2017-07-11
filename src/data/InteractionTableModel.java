@@ -36,9 +36,7 @@ public class InteractionTableModel extends AbstractDataListTableModel<Interactio
                return (Object) "";
             }
          case 2:
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/y h:m a");
-            LocalDateTime ldt = interaction.getTimestamp().toLocalDateTime();
-            return (Object) ldt.format(dtf);
+            return (Object) interaction.getLocalTimestampString();
          case 3:
             return (Object) interaction.getSummaryText();
          default:
