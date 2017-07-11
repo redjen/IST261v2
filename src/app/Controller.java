@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
- * Controller for the application
+ * Controller is the main controller for the application
  */
 public class Controller {
 
@@ -193,6 +193,11 @@ public class Controller {
       mainPanel.setTableVisible(true);
    }
 
+   /**
+    * Handler for closing the last window. 
+    * 
+    * This method saves application data
+    */
    private void handleExit() {
       persistDataController.writeData();
       appFrame.dispose();
