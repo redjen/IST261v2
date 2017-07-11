@@ -1,5 +1,6 @@
 package app;
 
+import data.AbstractInteraction;
 import data.Contact;
 import data.ContactList;
 import data.ContactTableModel;
@@ -85,6 +86,10 @@ public class Controller {
     */
    public Contact getContactById(long id) {
       return contactList.getById(id);
+   }
+   
+   public AbstractInteraction getInteractionById(long id) {
+      return interactionList.getById(id);
    }
 
    /**
