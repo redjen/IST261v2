@@ -43,7 +43,7 @@ public class Controller {
       
       // interaction model and views
       interactionList = persistDataController.getInteractions();
-      interactionTableModel = new InteractionTableModel(interactionList);
+      interactionTableModel = new InteractionTableModel(interactionList, this);
 
       appFrame = new AppFrame("Contacts");
       mainPanel = new MainPanel(contactTableModel, interactionTableModel);
@@ -76,6 +76,15 @@ public class Controller {
       contact = contactList.getById((long) contactId);
 
       return contact;
+   }
+   
+   /**
+    * Gets the contact  by its unique ID
+    * @param id the ID
+    * @return the contact or null if it does not exist
+    */
+   public Contact getContactById(long id) {
+      return contactList.getById(id);
    }
 
    /**

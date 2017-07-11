@@ -1,5 +1,7 @@
 package data;
 
+import app.Controller;
+
 /**
  * The InteractionTableModel class represents
  *
@@ -7,9 +9,11 @@ package data;
 public class InteractionTableModel extends AbstractDataListTableModel<InteractionList> {
 
    private static final String[] COLUMN_NAMES = {"ID", "Contact Name", "Time"};
+   private final Controller controller;
 
-   public InteractionTableModel(InteractionList interactionList) {
+   public InteractionTableModel(InteractionList interactionList, Controller controller) {
       super(interactionList, COLUMN_NAMES);
+      this.controller = controller;
    }
 
    @Override
@@ -20,7 +24,14 @@ public class InteractionTableModel extends AbstractDataListTableModel<Interactio
          case 0:
             return (Object) interaction.getId();
          case 1:
-            return (Object) interaction.getContactId();
+            Contact contact;
+            long contactId = interaction.getContactId();
+            contact = controller.getContactById(contactId);
+            if (contact != null) {
+               return (Object) contact.getFullName();
+            } else {
+               return (Object) "";
+            }
          case 2:
             return (Object) interaction.getTimestamp().toString();
          default:
