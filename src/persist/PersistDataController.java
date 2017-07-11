@@ -3,6 +3,7 @@ package persist;
 import data.Contact;
 import data.ContactList;
 import data.AbstractInteraction;
+import data.InteractionList;
 import data.TextMessage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +32,7 @@ public class PersistDataController {
    public PersistDataController() {
       data = readData();
 
-      if (data == null || data.getContactList().size() == 0) {
+      if (data == null || data.getContactList().size() == 0 || data.getInteractionList().size() == 0) {
          data = createTestSerializedDataCollection();
       }
 
@@ -44,6 +45,10 @@ public class PersistDataController {
     */
    public ContactList getContacts() {
       return data.getContactList();
+   }
+
+   public InteractionList getInteractions() {
+      return data.getInteractionList();
    }
 
    /**
@@ -95,8 +100,6 @@ public class PersistDataController {
       }
 
    }
-   
-   
 
    /**
     * Constructs a new SerializedDataCollection when no data has been persisted
@@ -108,6 +111,8 @@ public class PersistDataController {
       SerializedDataCollection sdc = new SerializedDataCollection();
       sdc.getContactList().addAll(getTestContacts());
       sdc.getInteractionList().addAll(getTestInteractions());
+      System.out.printf("Test data imported: %d contacts, %d interactions",
+              sdc.getContactList().size(), sdc.getInteractionList().size());
       return sdc;
    }
 
@@ -123,7 +128,7 @@ public class PersistDataController {
          while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.charAt(0) != '#') {
-               
+
                String[] tokens = line.split(",");
                contacts.add(new Contact(Long.parseLong(tokens[0]), tokens[1], tokens[2],
                        tokens[3], tokens[4], tokens[5], tokens[6]));
@@ -136,10 +141,10 @@ public class PersistDataController {
 
       return contacts;
    }
-   
+
    private ArrayList<AbstractInteraction> getTestInteractions() {
       ArrayList<AbstractInteraction> interactions = new ArrayList<>();
-      
+
       try (Scanner scanner = new Scanner(new File(TEST_INTERACTIONS_DATA_FILE))) {
          scanner.useDelimiter(",");
          while (scanner.hasNextLine()) {
@@ -148,12 +153,12 @@ public class PersistDataController {
             String timestampString = scanner.next();
             String message = scanner.nextLine();
             interactions.add(new TextMessage(interactionId, contactId, message, timestampString));
-            
+
          }
       } catch (FileNotFoundException ex) {
          Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
       }
-      
+
       return interactions;
    }
 }

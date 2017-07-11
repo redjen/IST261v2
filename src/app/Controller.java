@@ -3,6 +3,8 @@ package app;
 import data.Contact;
 import data.ContactList;
 import data.ContactTableModel;
+import data.InteractionList;
+import data.InteractionTableModel;
 import persist.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +19,13 @@ import javax.swing.JTable;
 public class Controller {
 
    private final PersistDataController persistDataController;
+   
    private final ContactList contactList;
    private final ContactTableModel contactTableModel;
    private boolean isCreatingNewContact;
+   
+   private final InteractionList interactionList;
+   private final InteractionTableModel interactionTableModel;
 
    private final AppFrame appFrame;
    private final MainPanel mainPanel;
@@ -30,14 +36,17 @@ public class Controller {
 
       persistDataController = new PersistDataController();
 
+      // contact model and views
       isCreatingNewContact = false;
-
       contactList = persistDataController.getContacts();
-
       contactTableModel = new ContactTableModel(contactList);
+      
+      // interaction model and views
+      interactionList = persistDataController.getInteractions();
+      interactionTableModel = new InteractionTableModel(interactionList);
 
       appFrame = new AppFrame("Contacts");
-      mainPanel = new MainPanel(contactTableModel);
+      mainPanel = new MainPanel(contactTableModel, interactionTableModel);
       appFrame.setContentPane(mainPanel);
 
       contactListTable = mainPanel.getContactTablePanel().getContactTable();

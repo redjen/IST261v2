@@ -1,6 +1,7 @@
 package app;
 
 import data.ContactTableModel;
+import data.InteractionTableModel;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -17,15 +18,17 @@ public class MainPanel extends JTabbedPane {
    private final ContactDetailPanel contactDetailPanel;
    
    private final JPanel interactionTopPanel;
-
-   public MainPanel(ContactTableModel model) {
+   private final InteractionTablePanel interactionTablePanel;
+   
+   public MainPanel(ContactTableModel contactModel, InteractionTableModel interactionModel) {
       super();
       
       // create panels and panes
       contactTopPanel = new JPanel();
       contactDetailPanel = new ContactDetailPanel();
-      contactTablePanel = new ContactTablePanel(model);
+      contactTablePanel = new ContactTablePanel(contactModel);
       interactionTopPanel = new JPanel();
+      interactionTablePanel = new InteractionTablePanel(interactionModel);
       setupPanels();
       
       // set visibility on subviews
@@ -72,6 +75,11 @@ public class MainPanel extends JTabbedPane {
       contactTopPanel.add(contactDetailPanel);
       contactTopPanel.add(contactTablePanel);
       
+      // interaction views
+      interactionTopPanel.setLayout(new CardLayout());
+      interactionTopPanel.add(interactionTablePanel);
+      
+      // add tabs
       this.addTab("Contacts", contactTopPanel);
       this.addTab("Interactions", interactionTopPanel);
       
