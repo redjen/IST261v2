@@ -17,6 +17,7 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
    private final ArrayList<T> items;
    private final HashMap<Long, T> itemsById;
    private long nextId;
+   private static final long serialVersionUID = 100L;
 
    public AbstractDataList() {
       items = new ArrayList<>();
@@ -28,6 +29,9 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
    public long add(T item) {
       items.add(item);
       itemsById.put(item.getId(), item);
+      if (item.getId() > nextId) {
+         nextId = item.getId() + 1;
+      }
       return item.getId();
    }
 
