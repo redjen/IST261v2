@@ -3,7 +3,7 @@ package app;
 import data.contact.Contact;
 import data.contact.ContactList;
 import data.contact.ContactTableModel;
-import dao.PersistDataController;
+import persist.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;

@@ -1,4 +1,4 @@
-package dao;
+package persist;
 
 import data.contact.ContactList;
 import data.interaction.InteractionList;
