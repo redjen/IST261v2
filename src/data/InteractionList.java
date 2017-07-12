@@ -3,6 +3,7 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -20,11 +21,21 @@ public class InteractionList extends AbstractDataList<AbstractInteraction>
    public InteractionList() {
       super();
       this.itemsByContactId = new HashMap<>();
-      indexAllByContactId();
+   }
+
+   /**
+    * Returns the interactions associated with the contact ID
+    *
+    * @param contactId the contact ID
+    * @return the interactions or an empty set if none found
+    */
+   public TreeSet<AbstractInteraction> getInteractionsByContactId(long contactId) {
+      return itemsByContactId.getOrDefault(contactId, new TreeSet<>());
    }
 
    /**
     * Adds a new text message interaction
+    *
     * @param contactId ID of the contact associated with this interaction
     * @param messageText text of the message
     * @return new interaction ID
@@ -36,24 +47,29 @@ public class InteractionList extends AbstractDataList<AbstractInteraction>
       return newMessage.getId();
    }
 
+   @Override
+   public void addAll(List<AbstractInteraction> newItems) {
+      super.addAll(newItems);
+      indexAllByContactId();
+   }
+
    /**
-    * Adds a single item to the index of interactions referenced by the contact ID
+    * Adds a single item to the index of interactions referenced by the contact
+    * ID
+    *
     * @param item the interaction to index
     */
    private void indexByContactId(AbstractInteraction item) {
-      if (itemsByContactId.containsKey(item.getContactId())) {
-         itemsByContactId.get(item.getContactId()).add(item);
-      } else {
-         TreeSet<AbstractInteraction> list = new TreeSet<>();
-         add(item);
-         itemsByContactId.put(item.getContactId(), list);
-      }
+      System.out.println("Indexing" + item.getId());
+      TreeSet<AbstractInteraction> ts = itemsByContactId.getOrDefault(item.getContactId(), new TreeSet<>());
+      ts.add(item);
+      itemsByContactId.put(item.getContactId(), ts);
    }
 
    /**
     * Regenerates the index of contacts reference by the contact ID
     */
-   void indexAllByContactId() {
+   private void indexAllByContactId() {
       itemsByContactId.clear();
       ArrayList<AbstractInteraction> itemList = getAllItems();
       for (AbstractInteraction item : itemList) {

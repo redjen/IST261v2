@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.TreeSet;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -20,11 +22,11 @@ import javax.swing.JTable;
 public class Controller {
 
    private final PersistDataController persistDataController;
-   
+
    private final ContactList contactList;
    private final ContactTableModel contactTableModel;
    private boolean isCreatingNewContact;
-   
+
    private final InteractionList interactionList;
    private final InteractionTableModel interactionTableModel;
 
@@ -41,7 +43,7 @@ public class Controller {
       isCreatingNewContact = false;
       contactList = persistDataController.getContacts();
       contactTableModel = new ContactTableModel(contactList);
-      
+
       // interaction model and views
       interactionList = persistDataController.getInteractions();
       interactionTableModel = new InteractionTableModel(interactionList, this);
@@ -78,16 +80,17 @@ public class Controller {
 
       return contact;
    }
-   
+
    /**
-    * Gets the contact  by its unique ID
+    * Gets the contact by its unique ID
+    *
     * @param id the ID
     * @return the contact or null if it does not exist
     */
    public Contact getContactById(long id) {
       return contactList.getById(id);
    }
-   
+
    public AbstractInteraction getInteractionById(long id) {
       return interactionList.getById(id);
    }
@@ -100,6 +103,14 @@ public class Controller {
    private void getDetailView(int row) {
       contactView = new ContactDetailView(this, row);
       mainPanel.getContactDetailPanel().setContent(contactView);
+
+      // interactions list
+      ArrayList<InteractionContactDetailView> views = new ArrayList<>();
+      for (AbstractInteraction interaction
+              : interactionList.getInteractionsByContactId(contactView.getCurrentContactId())) {
+         views.add(new InteractionContactDetailView(interaction));
+      }
+      contactView.addInteractions(views);
       mainPanel.setContactDetailVisible(true);
    }
 
@@ -217,8 +228,8 @@ public class Controller {
    }
 
    /**
-    * Handler for closing the last window. 
-    * 
+    * Handler for closing the last window.
+    *
     * This method saves application data
     */
    private void handleExit() {
