@@ -1,17 +1,21 @@
 package app;
 
 import data.Contact;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
  * ContactDetailView is the view for displaying a contact view. It is part of
- * the "detail" portion of the list-detail pattern. It provides methods to 
+ * the "detail" portion of the list-detail pattern. It provides methods to
  * display a contact's data and can also be used as a form for creating new
  * contacts.
  */
@@ -21,6 +25,7 @@ public class ContactDetailView extends JPanel {
    private static final String PERSON_ICON = ICON_PATH + "ic_person_36pt_3x.png";
    private final Controller controller;
    private Contact currentContact;
+   private final GridBagConstraints gbc;
 
    private final JTextField firstNameField;
    private final JTextField lastNameField;
@@ -30,22 +35,26 @@ public class ContactDetailView extends JPanel {
    private final JTextField twitterField;
    private final JTextField facebookField;
 
+
    /**
     * Constructs a new ContactDetailView and displays the specified contact's
     * information
-    * 
+    *
     * @param controller the application controller
-    * @param row the index of the table model row for the contact to be displayed
+    * @param row the index of the table model row for the contact to be
+    * displayed
     */
    public ContactDetailView(Controller controller, int row) {
       this(controller);
 
       this.currentContact = controller.getContact(row);
+
       updateView();
    }
 
    /**
-    * Constructs an empty ContactDetailView 
+    * Constructs an empty ContactDetailView
+    *
     * @param controller the application controller
     */
    public ContactDetailView(Controller controller) {
@@ -63,6 +72,7 @@ public class ContactDetailView extends JPanel {
       twitterField = new JTextField();
       facebookField = new JTextField();
 
+      gbc = new GridBagConstraints();
       setupViewLayout();
       setOpaque(true);
    }
@@ -102,12 +112,31 @@ public class ContactDetailView extends JPanel {
    public JTextField getFacebookField() {
       return facebookField;
    }
-   
+
    public long getCurrentContactId() {
       if (currentContact != null) {
          return currentContact.getId();
       } else {
          return -1;
+      }
+   }
+
+   public void addInteractions(List<InteractionContactDetailView> interactions) {
+
+      if (interactions.size() > 0) {
+         JPanel jp = new JPanel();
+         jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+         gbc.fill = GridBagConstraints.BOTH;
+         gbc.gridy++;
+         gbc.gridx = 0;
+         gbc.weightx = 1.0;
+         gbc.weighty = 1.0;
+         gbc.gridwidth = 2;
+         
+         for (InteractionContactDetailView interaction : interactions) {
+            jp.add(interaction);
+         }     
+         add(new JScrollPane(jp), gbc);
       }
    }
 
@@ -122,6 +151,7 @@ public class ContactDetailView extends JPanel {
       emailField.setText(currentContact.getEmail());
       twitterField.setText(currentContact.getTwitterId());
       facebookField.setText(currentContact.getFacebookId());
+
    }
 
    /**
@@ -130,9 +160,8 @@ public class ContactDetailView extends JPanel {
    private void setupViewLayout() {
 
       GridBagLayout layout = new GridBagLayout();
+      layout.setConstraints(this, gbc);
       setLayout(layout);
-
-      GridBagConstraints gbc = new GridBagConstraints();
 
       gbc.insets = new Insets(5, 5, 5, 5);
 
@@ -143,14 +172,19 @@ public class ContactDetailView extends JPanel {
       gbc.gridy = 0;
       gbc.gridx = 0;
       gbc.gridy++;
-              
-      insertRow(firstNameField, "First name", gbc);
-      insertRow(lastNameField, "Last name", gbc);
-      insertRow(phoneNumberField, "Phone", gbc);
-      insertRow(emailField, "Email", gbc);
-      insertRow(twitterField, "Twitter", gbc);
-      insertRow(facebookField, "Facebook", gbc);
 
+      insertRow(firstNameField, "First name", gbc);
+      gbc.gridy++;
+      insertRow(lastNameField, "Last name", gbc);
+      gbc.gridy++;
+      insertRow(phoneNumberField, "Phone", gbc);
+      gbc.gridy++;
+      insertRow(emailField, "Email", gbc);
+      gbc.gridy++;
+      insertRow(twitterField, "Twitter", gbc);
+      gbc.gridy++;
+      insertRow(facebookField, "Facebook", gbc);
+      gbc.gridy++;
    }
 
    /**
@@ -181,7 +215,6 @@ public class ContactDetailView extends JPanel {
 
       // prepare for next row
       gbc.gridx = 0;
-      gbc.gridy++;
    }
 
 }

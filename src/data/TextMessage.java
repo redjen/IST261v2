@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class TextMessage extends AbstractInteraction implements Serializable {
 
-   private static final String ICON_LOCATION = "resources/interaction/ic_message_18pt";
+   private static final String ICON_LOCATION = "ic_message_18pt";
    private static final long serialVersionUID = 3L;
 
    public TextMessage(long id, long contactId, String messageText) {

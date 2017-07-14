@@ -1,30 +1,38 @@
 package app;
 
 import data.ContactTableModel;
+import data.InteractionTableModel;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 /**
  * MainPanel is the top-level panel for the application's views. It provides
  * methods to show and hide its child panels.
  *
  */
-public class MainPanel extends JPanel {
+public class MainPanel extends JTabbedPane {
 
-   private final ContactTablePanel tablePanel;
-   private final ContactDetailPanel detailPanel;
-
-   public MainPanel(ContactTableModel model) {
+   private final JPanel contactTopPanel;
+   private final ContactTablePanel contactTablePanel;
+   private final ContactDetailPanel contactDetailPanel;
+   
+   private final JPanel interactionTopPanel;
+   private final InteractionTablePanel interactionTablePanel;
+   
+   public MainPanel(ContactTableModel contactModel, InteractionTableModel interactionModel) {
       super();
-
-      this.setLayout(new CardLayout());
-      detailPanel = new ContactDetailPanel();
-      this.add(detailPanel);
-
-      tablePanel = new ContactTablePanel(model);
-      this.add(tablePanel);
-
-      setTableVisible(true);
+      
+      // create panels and panes
+      contactTopPanel = new JPanel();
+      contactDetailPanel = new ContactDetailPanel();
+      contactTablePanel = new ContactTablePanel(contactModel);
+      interactionTopPanel = new JPanel();
+      interactionTablePanel = new InteractionTablePanel(interactionModel);
+      setupPanels();
+      
+      // set visibility on subviews
+      setContactTableVisible(true);
       setVisible(true);
    }
 
@@ -34,9 +42,9 @@ public class MainPanel extends JPanel {
     *
     * @param visible true to show the contact table, otherwise false
     */
-   public void setTableVisible(boolean visible) {
-      tablePanel.setVisible(visible);
-      detailPanel.setVisible(!visible);
+   public void setContactTableVisible(boolean visible) {
+      contactTablePanel.setVisible(visible);
+      contactDetailPanel.setVisible(!visible);
       revalidate();
    }
 
@@ -46,18 +54,34 @@ public class MainPanel extends JPanel {
     *
     * @param visible true to show the detail view, otherwise false
     */
-   public void setDetailVisible(boolean visible) {
-      tablePanel.setVisible(!visible);
-      detailPanel.setVisible(visible);
+   public void setContactDetailVisible(boolean visible) {
+      contactTablePanel.setVisible(!visible);
+      contactDetailPanel.setVisible(visible);
       revalidate();
    }
 
-   public ContactTablePanel getTablePanel() {
-      return tablePanel;
+   public ContactTablePanel getContactTablePanel() {
+      return contactTablePanel;
    }
 
-   public ContactDetailPanel getDetailPanel() {
-      return detailPanel;
+   public ContactDetailPanel getContactDetailPanel() {
+      return contactDetailPanel;
    }
 
+   private void setupPanels() {
+      
+      // contact views
+      contactTopPanel.setLayout(new CardLayout());
+      contactTopPanel.add(contactDetailPanel);
+      contactTopPanel.add(contactTablePanel);
+      
+      // interaction views
+      interactionTopPanel.setLayout(new CardLayout());
+      interactionTopPanel.add(interactionTablePanel);
+      
+      // add tabs
+      this.addTab("Contacts", contactTopPanel);
+      this.addTab("Interactions", interactionTopPanel);
+      
+   }
 }

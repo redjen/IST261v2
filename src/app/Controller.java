@@ -1,14 +1,19 @@
 package app;
 
+import data.AbstractInteraction;
 import data.Contact;
 import data.ContactList;
 import data.ContactTableModel;
+import data.InteractionList;
+import data.InteractionTableModel;
 import persist.PersistDataController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.TreeSet;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -17,9 +22,13 @@ import javax.swing.JTable;
 public class Controller {
 
    private final PersistDataController persistDataController;
+
    private final ContactList contactList;
    private final ContactTableModel contactTableModel;
    private boolean isCreatingNewContact;
+
+   private final InteractionList interactionList;
+   private final InteractionTableModel interactionTableModel;
 
    private final AppFrame appFrame;
    private final MainPanel mainPanel;
@@ -30,17 +39,20 @@ public class Controller {
 
       persistDataController = new PersistDataController();
 
+      // contact model and views
       isCreatingNewContact = false;
-
       contactList = persistDataController.getContacts();
-
       contactTableModel = new ContactTableModel(contactList);
 
+      // interaction model and views
+      interactionList = persistDataController.getInteractions();
+      interactionTableModel = new InteractionTableModel(interactionList, this);
+
       appFrame = new AppFrame("Contacts");
-      mainPanel = new MainPanel(contactTableModel);
+      mainPanel = new MainPanel(contactTableModel, interactionTableModel);
       appFrame.setContentPane(mainPanel);
 
-      contactListTable = mainPanel.getTablePanel().getContactTable();
+      contactListTable = mainPanel.getContactTablePanel().getContactTable();
       contactListTable.setAutoCreateRowSorter(true);
 
       appFrame.setVisible(true);
@@ -70,14 +82,36 @@ public class Controller {
    }
 
    /**
+    * Gets the contact by its unique ID
+    *
+    * @param id the ID
+    * @return the contact or null if it does not exist
+    */
+   public Contact getContactById(long id) {
+      return contactList.getById(id);
+   }
+
+   public AbstractInteraction getInteractionById(long id) {
+      return interactionList.getById(id);
+   }
+
+   /**
     * Constructs and shows the detail view for the specified contact
     *
     * @param row the contact's row number in the table model
     */
    private void getDetailView(int row) {
       contactView = new ContactDetailView(this, row);
-      mainPanel.getDetailPanel().setContent(contactView);
-      mainPanel.setDetailVisible(true);
+      mainPanel.getContactDetailPanel().setContent(contactView);
+
+      // interactions list
+      ArrayList<InteractionContactDetailView> views = new ArrayList<>();
+      for (AbstractInteraction interaction
+              : interactionList.getInteractionsByContactId(contactView.getCurrentContactId())) {
+         views.add(new InteractionContactDetailView(interaction));
+      }
+      contactView.addInteractions(views);
+      mainPanel.setContactDetailVisible(true);
    }
 
    /**
@@ -172,8 +206,8 @@ public class Controller {
     */
    private void handleAddButton() {
       contactView = new ContactDetailView(Controller.this);
-      mainPanel.getDetailPanel().setContent(contactView);
-      mainPanel.setDetailVisible(true);
+      mainPanel.getContactDetailPanel().setContent(contactView);
+      mainPanel.setContactDetailVisible(true);
       isCreatingNewContact = true;
    }
 
@@ -182,20 +216,20 @@ public class Controller {
     */
    private void unloadContactView() {
       contactView = null;
-      mainPanel.getDetailPanel().setContent(null);
-      mainPanel.setTableVisible(true);
+      mainPanel.getContactDetailPanel().setContent(null);
+      mainPanel.setContactTableVisible(true);
    }
 
    /**
     * Handler for showing the table view from the detail view
     */
    private void handleTableButton() {
-      mainPanel.setTableVisible(true);
+      mainPanel.setContactTableVisible(true);
    }
 
    /**
-    * Handler for closing the last window. 
-    * 
+    * Handler for closing the last window.
+    *
     * This method saves application data
     */
    private void handleExit() {
@@ -216,49 +250,49 @@ public class Controller {
          }
       });
 
-      mainPanel.getDetailPanel().getTableButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getTableButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleTableButton();
          }
       });
 
-      mainPanel.getTablePanel().getDetailButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getDetailButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDetailButton();
          }
       });
 
-      mainPanel.getTablePanel().getDeleteContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getDeleteContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDeleteTableButton();
          }
       });
 
-      mainPanel.getDetailPanel().getDeleteContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getDeleteContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleDeleteDetailButton();
          }
       });
 
-      mainPanel.getTablePanel().getAddContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactTablePanel().getAddContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleAddButton();
          }
       });
 
-      mainPanel.getDetailPanel().getAddContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getAddContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleAddButton();
          }
       });
 
-      mainPanel.getDetailPanel().getSaveContactButton().addActionListener(new ActionListener() {
+      mainPanel.getContactDetailPanel().getSaveContactButton().addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleSaveButton();

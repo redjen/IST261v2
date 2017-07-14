@@ -57,6 +57,14 @@ public class Contact implements  DataListItem, Serializable {
       this.twitterId = twitterId;
       this.facebookId = facebookId;
    }
+   
+   /**
+    * Returns the contact's full name
+    * @return the full name
+    */
+   public String getFullName() {
+      return firstName + " " + lastName;
+   }
 
    @Override
    public long getId() {
