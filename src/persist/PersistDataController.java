@@ -169,7 +169,7 @@ public class PersistDataController implements Observer, TableModelListener {
             int contactId = scanner.nextInt();
             String timestampString = scanner.next();
             String message = scanner.nextLine();
-            interactions.add(new TextMessage(interactionId, contactId, message, timestampString));
+            interactions.add(new TextMessage(interactionId, contactId, message.substring(1), timestampString));
 
          }
       } catch (FileNotFoundException ex) {
