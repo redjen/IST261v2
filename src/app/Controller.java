@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.TreeSet;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -38,16 +36,19 @@ public class Controller {
    public Controller() {
 
       persistDataController = new PersistDataController();
+      persistDataController.setObserver();
 
       // contact model and views
       isCreatingNewContact = false;
       contactList = persistDataController.getContacts();
       contactTableModel = new ContactTableModel(contactList);
+      contactTableModel.addTableModelListener(persistDataController);
 
       // interaction model and views
       interactionList = persistDataController.getInteractions();
       interactionTableModel = new InteractionTableModel(interactionList, this);
-
+      interactionTableModel.addTableModelListener(persistDataController);
+      
       appFrame = new AppFrame("Contacts");
       mainPanel = new MainPanel(contactTableModel, interactionTableModel);
       appFrame.setContentPane(mainPanel);

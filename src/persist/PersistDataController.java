@@ -13,29 +13,28 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  * PersistDataController is responsible for reading and writing persisted data
  *
  */
-public class PersistDataController {
+public class PersistDataController implements Observer, TableModelListener {
 
    private final static String DATA_FILE = "data.ser";
    private final static String TEST_CONTACTS_DATA_FILE = "resources/defaultData/contacts.txt";
    private final static String TEST_INTERACTIONS_DATA_FILE = "resources/defaultData/interactions.txt";
 
-   private SerializedDataCollection data;
+   private final SerializedDataCollection data;
 
    public PersistDataController() {
-      data = readData();
-
-      if (data == null || data.getContactList().size() == 0 || data.getInteractionList().size() == 0) {
-         data = createTestSerializedDataCollection();
-      }
-
+      this.data = readData();
    }
 
    /**
@@ -52,68 +51,86 @@ public class PersistDataController {
    }
 
    /**
+    * Persists application data
+    */
+   public void writeData() {
+      writeData(this.data);
+   }
+
+   /**
+    * Persists the specified SerializedDataCollection
+    *
+    * @param sdc the SerializedDataCollection to persist
+    */
+   private void writeData(SerializedDataCollection sdc) {
+      File dataFile = new File(DATA_FILE);
+
+      try (java.io.FileOutputStream fos = new FileOutputStream(dataFile, false);
+              java.io.ObjectOutputStream out = new ObjectOutputStream(fos)) {
+
+         out.writeObject(sdc);
+
+      } catch (IOException ex) {
+         System.err.println(ex.getCause());
+         System.err.println(ex.getMessage());
+      }
+   }
+
+   /**
+    * Sets this as the observer for persisting data
+    */
+   public void setObserver() {
+      if (data != null) {
+         data.setObserver(this);
+      } else {
+         System.err.println("Could not set observers because no data exists");
+      }
+
+   }
+
+   /**
     * Reads the persisted data
     *
     * @return the persisted data, or an empty SerializedDataCollection if none
     * was stored
     */
    private SerializedDataCollection readData() {
-
-      SerializedDataCollection newData = null;
+      
+      SerializedDataCollection sdc = new SerializedDataCollection();
 
       File dataFile = new File(DATA_FILE);
 
       if (!dataFile.exists()) {
-         return createTestSerializedDataCollection();
+         generateTestData();
       }
 
       try (java.io.FileInputStream fis = new FileInputStream(dataFile);
               java.io.ObjectInputStream in = new ObjectInputStream(fis)) {
 
-         newData = (SerializedDataCollection) in.readObject();
+         sdc = (SerializedDataCollection) in.readObject();
 
       } catch (FileNotFoundException ex) {
          Logger.getLogger(PersistDataController.class.getName()).log(Level.INFO, "Data file not found, using test data");
-         newData = createTestSerializedDataCollection();
       } catch (IOException | ClassNotFoundException ex) {
          Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
 
-      } finally {
-         return newData;
       }
-
-   }
-
-   /**
-    * Saves the application data
-    */
-   public void writeData() {
-      File dataFile = new File(DATA_FILE);
-
-      try (java.io.FileOutputStream fos = new FileOutputStream(dataFile, false);
-              java.io.ObjectOutputStream out = new ObjectOutputStream(fos)) {
-
-         out.writeObject(data);
-
-      } catch (IOException ex) {
-         Logger.getLogger(PersistDataController.class.getName()).log(Level.SEVERE, null, ex);
-      }
-
+      
+      return sdc;
    }
 
    /**
     * Constructs a new SerializedDataCollection when no data has been persisted
-    * using existing test data
+    * using existing test data, then serializes this file
     *
-    * @return a new SerializedDataCollection
     */
-   private SerializedDataCollection createTestSerializedDataCollection() {
+   private void generateTestData() {
       SerializedDataCollection sdc = new SerializedDataCollection();
       sdc.getContactList().addAll(getTestContacts());
       sdc.getInteractionList().addAll(getTestInteractions());
+      writeData(sdc);
       System.out.printf("Test data imported: %d contacts, %d interactions",
               sdc.getContactList().size(), sdc.getInteractionList().size());
-      return sdc;
    }
 
    /**
@@ -160,5 +177,22 @@ public class PersistDataController {
       }
 
       return interactions;
+   }
+
+   /**
+    * Responds to notifications from data classes and persists data
+    *
+    * @param o
+    * @param arg
+    */
+   @Override
+   public void update(Observable o, Object arg) {
+      writeData();
+   }
+
+   @Override
+   public void tableChanged(TableModelEvent e) {
+      System.out.println(e.getType());
+      writeData();
    }
 }

@@ -5,7 +5,7 @@ package data;
  * of contacts.
  *
  */
-public class ContactTableModel extends AbstractDataListTableModel<ContactList> {
+public class ContactTableModel extends AbstractDataListTableModel {
 
    private static final String[] COLUMN_NAMES = {"ID", "First Name", "Last Name", "Phone"};
 
@@ -56,7 +56,7 @@ public class ContactTableModel extends AbstractDataListTableModel<ContactList> {
          default:
             break;
       }
-      fireTableCellUpdated(row, col);
+      fireTableDataChanged();
    }
 
    @Override

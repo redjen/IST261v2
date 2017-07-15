@@ -1,6 +1,5 @@
 package data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +11,9 @@ import java.util.TreeSet;
  * @see DataList
  *
  */
-public class InteractionList extends AbstractDataList<AbstractInteraction>
-        implements DataList<AbstractInteraction>, Serializable {
+public class InteractionList extends AbstractDataList<AbstractInteraction> {
 
-   private static final long serialVersionUID = 3L;
+//   private static final long serialVersionUID = 3L;
    private final HashMap<Long, TreeSet<AbstractInteraction>> itemsByContactId;
 
    public InteractionList() {
@@ -60,7 +58,6 @@ public class InteractionList extends AbstractDataList<AbstractInteraction>
     * @param item the interaction to index
     */
    private void indexByContactId(AbstractInteraction item) {
-      System.out.println("Indexing" + item.getId());
       TreeSet<AbstractInteraction> ts = itemsByContactId.getOrDefault(item.getContactId(), new TreeSet<>());
       ts.add(item);
       itemsByContactId.put(item.getContactId(), ts);

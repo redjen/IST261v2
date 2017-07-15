@@ -1,15 +1,12 @@
 package data;
 
 import app.Controller;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * The InteractionTableModel class represents
  *
  */
-public class InteractionTableModel extends AbstractDataListTableModel<InteractionList> {
+public class InteractionTableModel extends AbstractDataListTableModel {
 
    private static final String[] COLUMN_NAMES = {"ID", "Contact Name", "Time", "Message"};
    private final Controller controller;

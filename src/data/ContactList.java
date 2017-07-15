@@ -1,15 +1,11 @@
 package data;
 
-import java.io.Serializable;
-
 /**
  * ContactList is a collection of Contacts and methods to interact add, delete,
  * access, and update them.
  *
  */
-public class ContactList extends AbstractDataList<Contact> implements DataList<Contact>, Serializable {
-
-   private static final long serialVersionUID = 3L;
+public class ContactList extends AbstractDataList<Contact> {
 
    /**
     * Constructs a new ContactList populated with test contacts
@@ -27,7 +23,10 @@ public class ContactList extends AbstractDataList<Contact> implements DataList<C
     * @return the contact's ID
     */
    public long add(String firstName, String lastName) {
-      return add(firstName, lastName, "", "", "", "");
+      long id = add(firstName, lastName, "", "", "", "");
+      setChanged();
+      notifyObservers();
+      return id;
    }
 
    /**
@@ -45,7 +44,10 @@ public class ContactList extends AbstractDataList<Contact> implements DataList<C
    public long add(String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
       Contact c = new Contact(getNextId(), firstName, lastName, phoneNumber, email, twitterId, facebookId);
-      return add(c);
+      long id = add(c);
+      setChanged();
+      notifyObservers();
+      return id;
    }
 
    /**
@@ -61,8 +63,10 @@ public class ContactList extends AbstractDataList<Contact> implements DataList<C
     */
    public void update(long contactId, String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
-      
+
       getById(contactId).update(firstName, lastName, phoneNumber, email, twitterId, facebookId);
+      setChanged();
+      notifyObservers();
    }
 
 }

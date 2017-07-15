@@ -1,6 +1,6 @@
 package data;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
  * interaction between two users.
  *
  */
-public abstract class AbstractInteraction implements Comparable<AbstractInteraction>, DataListItem {
+public abstract class AbstractInteraction extends AbstractDataListItem
+        implements Comparable<AbstractInteraction>, Serializable {
 
-   private final long id;
    private final long contactId;
    private final String messageText;
    private final ZonedDateTime timestamp;
@@ -22,7 +22,7 @@ public abstract class AbstractInteraction implements Comparable<AbstractInteract
    }
 
    public AbstractInteraction(long id, long contactId, String messageText, String timestampString, String iconLocation) {
-      this.id = id;
+      super(id);
       this.contactId = contactId;
       this.messageText = messageText;
       this.timestamp = ZonedDateTime.parse(timestampString);
@@ -36,11 +36,6 @@ public abstract class AbstractInteraction implements Comparable<AbstractInteract
     */
    public String getSummaryText() {
       return this.messageText;
-   }
-
-   @Override
-   public long getId() {
-      return id;
    }
 
    public long getContactId() {

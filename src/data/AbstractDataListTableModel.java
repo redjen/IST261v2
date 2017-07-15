@@ -7,12 +7,12 @@ import javax.swing.table.AbstractTableModel;
  * of contacts.
  *
  */
-public abstract class AbstractDataListTableModel<T> extends AbstractTableModel {
+public abstract class AbstractDataListTableModel extends AbstractTableModel {
 
    private final String[] columnNames;
-   protected final DataList dataList;
+   protected final TableModelDataList dataList;
 
-   public AbstractDataListTableModel(DataList dataList, String[] column_names) {
+   public AbstractDataListTableModel(TableModelDataList dataList, String[] column_names) {
       super();
       this.columnNames = column_names;
       this.dataList = dataList;

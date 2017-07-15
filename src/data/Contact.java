@@ -1,17 +1,12 @@
 package data;
 
-import java.io.Serializable;
-
 /**
  * The Contact class provides the attributes for a single contact and methods to
  * add, delete, and update those attributes.
  *
  */
-public class Contact implements  DataListItem, Serializable {
+public class Contact extends AbstractDataListItem {
 
-   private static final long serialVersionUID = 3L;
-   
-   private long id;
    private String firstName;
    private String lastName;
    private String phoneNumber; // TODO format phone number as String
@@ -21,7 +16,7 @@ public class Contact implements  DataListItem, Serializable {
 
    public Contact(long id, String firstName, String lastName, String phoneNumber,
            String email, String twitterId, String facebookId) {
-      this.id = id;
+      super(id);
       this.firstName = firstName;
       this.lastName = lastName;
       this.phoneNumber = phoneNumber;
@@ -57,18 +52,14 @@ public class Contact implements  DataListItem, Serializable {
       this.twitterId = twitterId;
       this.facebookId = facebookId;
    }
-   
+
    /**
     * Returns the contact's full name
+    *
     * @return the full name
     */
    public String getFullName() {
       return firstName + " " + lastName;
-   }
-
-   @Override
-   public long getId() {
-      return id;
    }
 
    public String getFirstName() {
@@ -84,7 +75,6 @@ public class Contact implements  DataListItem, Serializable {
    }
 
    public void setLastName(String lastName) {
-      this.lastName = lastName;
    }
 
    public String getPhoneNumber() {

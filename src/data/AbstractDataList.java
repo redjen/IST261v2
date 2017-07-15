@@ -4,20 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 /**
- * The AbstractDataList is the base class for DataList objects
+ * The AbstractDataList is the base class for TableModelDataList objects
  *
  * @param <T> the type of DataListItem for the instance
- * 
- * @see DataList
+ *
+ * @see TableModelDataList
  */
-public abstract class AbstractDataList<T extends DataListItem> implements DataList<T>, Serializable {
+public abstract class AbstractDataList<T extends AbstractDataListItem> extends Observable
+        implements Serializable, TableModelDataList {
 
    private final ArrayList<T> items;
    private final HashMap<Long, T> itemsById;
    private long nextId;
-   private static final long serialVersionUID = 100L;
+   private static final long serialVersionUID = 4L;
 
    public AbstractDataList() {
       items = new ArrayList<>();
@@ -25,24 +27,31 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
       nextId = 0;
    }
 
-   @Override
+   /**
+    * Adds a new DataListItem
+    *
+    * @param item
+    * @return
+    */
    public long add(T item) {
       items.add(item);
       itemsById.put(item.getId(), item);
+      nextId++;
       if (item.getId() > nextId) {
          nextId = item.getId() + 1;
       }
+      setChanged();
+      notifyObservers();
       return item.getId();
    }
 
-   @Override
    public void addAll(List<T> newItems) {
-      for (T newItem : newItems) {
+      newItems.forEach((newItem) -> {
+         // TODO this notifies the observer once for each item, which is costly
          add(newItem);
-      }
+      });
    }
 
-   @Override
    public T get(int index) {
       try {
          return items.get(index);
@@ -51,7 +60,6 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
       }
    }
 
-   @Override
    public T getById(long id) {
       T item = null;
       if (itemsById.containsKey(id)) {
@@ -65,28 +73,27 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
       return items;
    }
 
-   @Override
    public boolean isEmpty() {
       return items.isEmpty();
    }
 
-   @Override
    public void remove(long id) {
       if (itemsById.containsKey(id)) {
          T item = itemsById.get(id);
          items.remove(item);
          itemsById.remove(id);
       }
+      setChanged();
+      notifyObservers();
    }
 
-   @Override
    public void removeAll(List<Long> ids) {
-      for (Long id : ids) {
+      // TODO this notifies the observer once for each item, which is costly
+      ids.forEach((id) -> {
          remove(id);
-      }
+      });
    }
 
-   @Override
    public int size() {
       return items.size();
    }
@@ -97,7 +104,6 @@ public abstract class AbstractDataList<T extends DataListItem> implements DataLi
     * @return
     */
    protected long getNextId() {
-      nextId++;
       return nextId;
    }
 
