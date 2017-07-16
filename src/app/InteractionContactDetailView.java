@@ -41,10 +41,12 @@ public class InteractionContactDetailView extends javax.swing.JPanel {
       jScrollPane1 = new javax.swing.JScrollPane();
       jTextArea1 = new javax.swing.JTextArea();
 
-      jLabel1.setIcon(new javax.swing.ImageIcon("/Users/redjen/Documents/Class/IST261v2/resources/icons/interaction/ic_message_18pt.png")); // NOI18N
+      jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/interaction/ic_message_18pt.png"))); // NOI18N
 
       jLabel2.setText(currentInteraction.getLocalTimestampString());
 
+      jTextArea1.setEditable(false);
+      jTextArea1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
       jTextArea1.setColumns(20);
       jTextArea1.setLineWrap(true);
       jTextArea1.setRows(5);
@@ -73,7 +75,7 @@ public class InteractionContactDetailView extends javax.swing.JPanel {
                .addComponent(jLabel2)
                .addComponent(jLabel1))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
             .addContainerGap())
       );
    }// </editor-fold>//GEN-END:initComponents

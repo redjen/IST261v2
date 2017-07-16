@@ -81,7 +81,7 @@ public class MainPanel extends JTabbedPane {
       
       // add tabs
       this.addTab("Contacts", contactTopPanel);
-      this.addTab("Interactions", interactionTopPanel);
+//      this.addTab("Interactions", interactionTopPanel);
       
    }
 }
