@@ -104,6 +104,7 @@ public abstract class AbstractDataList<T extends DataListItem> extends Observabl
     * @return
     */
    protected long getNextId() {
+       nextId++;
       return nextId;
    }
 
