@@ -3,7 +3,7 @@ package data;
 import java.io.Serializable;
 
 /**
- * The Contact class provides the attributes for a single contact and methods to
+ * AbstractPerson provides the attributes for a single person and methods to
  * add, delete, and update those attributes.
  *
  */
