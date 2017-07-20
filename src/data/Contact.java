@@ -5,107 +5,23 @@ package data;
  * add, delete, and update those attributes.
  *
  */
-public class Contact extends AbstractDataListItem {
+public class Contact extends AbstractPerson implements DataListItem {
 
-   private String firstName;
-   private String lastName;
-   private String phoneNumber; // TODO format phone number as String
-   private String email;
-   private String twitterId;
-   private String facebookId;
+    private final long id;
 
-   public Contact(long id, String firstName, String lastName, String phoneNumber,
-           String email, String twitterId, String facebookId) {
-      super(id);
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.phoneNumber = phoneNumber;
-      this.email = email;
-      this.twitterId = twitterId;
-      this.facebookId = facebookId;
-   }
+    public Contact(long id, String firstName, String lastName, String phoneNumber,
+            String email, String twitterId, String facebookId) {
+        super(firstName, lastName, phoneNumber, email, twitterId, facebookId);
+        this.id = id;
+    }
 
-   public Contact(long id, String firstName, String lastName) {
-      this(id, firstName, lastName, "", "", "", "");
-   }
+    public Contact(long id, String firstName, String lastName) {
+        this(id, firstName, lastName, "", "", "", "");
+    }
 
-   public Contact(long id) {
-      this(id, "", "", "", "", "", "");
-   }
+    @Override
+    public long getId() {
+        return id;
+    }
 
-   /**
-    * Updates all contact fields with new values
-    *
-    * @param firstName
-    * @param lastName
-    * @param phoneNumber
-    * @param email
-    * @param twitterId
-    * @param facebookId
-    */
-   public void update(String firstName, String lastName, String phoneNumber,
-           String email, String twitterId, String facebookId) {
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.phoneNumber = phoneNumber;
-      this.email = email;
-      this.twitterId = twitterId;
-      this.facebookId = facebookId;
-   }
-
-   /**
-    * Returns the contact's full name
-    *
-    * @return the full name
-    */
-   public String getFullName() {
-      return firstName + " " + lastName;
-   }
-
-   public String getFirstName() {
-      return firstName;
-   }
-
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
-
-   public String getLastName() {
-      return lastName;
-   }
-
-   public void setLastName(String lastName) {
-   }
-
-   public String getPhoneNumber() {
-      return phoneNumber;
-   }
-
-   public void setPhoneNumber(String phoneNumber) {
-      this.phoneNumber = phoneNumber;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
-   public String getTwitterId() {
-      return twitterId;
-   }
-
-   public void setTwitterId(String twitterId) {
-      this.twitterId = twitterId;
-   }
-
-   public String getFacebookId() {
-      return facebookId;
-   }
-
-   public void setFacebookId(String facebookId) {
-      this.facebookId = facebookId;
-   }
 }

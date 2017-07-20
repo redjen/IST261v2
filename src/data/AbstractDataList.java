@@ -13,7 +13,7 @@ import java.util.Observable;
  *
  * @see TableModelDataList
  */
-public abstract class AbstractDataList<T extends AbstractDataListItem> extends Observable
+public abstract class AbstractDataList<T extends DataListItem> extends Observable
         implements Serializable, TableModelDataList {
 
    private final ArrayList<T> items;
