@@ -22,28 +22,23 @@ import javax.swing.JScrollPane;
 public abstract class CardPanelBase extends JPanel {
 
    private final JPanel buttonPanel;
+   private final JButton quitButton;
    private JScrollPane scrollPane;
-
-   /**
-    * Constructs a new CardPanelBase view with content
-    *
-    * @param content the component to display in the scrollable content area
-    */
-   public CardPanelBase(JComponent content) {
-      buttonPanel = new JPanel(new FlowLayout());
-      setContent(content);
-      setLayout();
-      setVisible(true);
-   }
 
    public CardPanelBase() {
       buttonPanel = new JPanel(new FlowLayout());
+      quitButton = new JButton("Quit");
+      quitButton.setToolTipText("show details");
+      addButton(quitButton);
+
       setLayout();
+
       setVisible(true);
    }
 
    /**
     * Adds a button to the end of the button panel
+    *
     * @param button the button to add
     */
    public final void addButton(JButton button) {
@@ -52,6 +47,7 @@ public abstract class CardPanelBase extends JPanel {
 
    /**
     * Sets the component to be displayed in the scrollable content pane
+    *
     * @param component the new component
     */
    public void setContent(JComponent component) {
@@ -65,6 +61,10 @@ public abstract class CardPanelBase extends JPanel {
       scrollPane = new JScrollPane(component);
       add(scrollPane, gbc);
       revalidate();
+   }
+
+   public JButton getQuitButton() {
+      return quitButton;
    }
 
    /**

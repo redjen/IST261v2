@@ -285,6 +285,13 @@ public class Controller {
             handleAddButton();
          }
       });
+      
+      mainPanel.getContactTablePanel().getQuitButton().addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            handleExit();
+         }
+      });
 
       mainPanel.getContactDetailPanel().getAddContactButton().addActionListener(new ActionListener() {
          @Override
@@ -297,6 +304,13 @@ public class Controller {
          @Override
          public void actionPerformed(ActionEvent e) {
             handleSaveButton();
+         }
+      });
+      
+      mainPanel.getContactDetailPanel().getQuitButton().addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            handleExit();
          }
       });
 
