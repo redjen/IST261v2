@@ -5,7 +5,7 @@ package data;
  * add, delete, and update those attributes.
  *
  */
-public class Contact extends AbstractPerson implements DataListItem {
+public class Contact extends Person implements DataListItem {
 
     private final long id;
 
@@ -24,4 +24,9 @@ public class Contact extends AbstractPerson implements DataListItem {
         return id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Contact other = (Contact) o;
+        return (super.equals(o) && id == other.getId());
+    }
 }
