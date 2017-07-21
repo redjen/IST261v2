@@ -21,20 +21,20 @@ public class PersonYouMayKnowQueue {
      */
     public void addItem(PersonYouMayKnow person) {
         ListIterator<PersonYouMayKnow> iter = people.listIterator();
-
+        boolean added = false;
+        
         if (people.isEmpty()) {
             people.add(person);
         } else {
             while (iter.hasNext()) {
-                Person nextPerson = iter.next();
+                PersonYouMayKnow nextPerson = iter.next();
                 if (person.compareTo(nextPerson) >= 0) {
                     people.add(iter.previousIndex(), person);
+                    added = true;
                     break;
                 }
             }
-            if (person.compareTo(iter.next()) >= 0) {
-                people.add(iter.previousIndex(), person);
-            } else {
+            if (!added) {
                 people.add(person);
             }
         }
@@ -74,10 +74,6 @@ public class PersonYouMayKnowQueue {
                     iter.remove();
                 }
             }
-        }
-
-        if (person.equals(iter.next())) {
-            iter.remove();
         }
     }
 

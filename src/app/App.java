@@ -1,15 +1,46 @@
 package app;
 
+import data.PersonYouMayKnow;
+import data.PersonYouMayKnowQueue;
+import java.util.TreeSet;
+
 /**
  * App is the application's main method
- * 
+ *
  */
 public class App {
-   public static void main(String[] args) {
-      
-      
-      Controller cldc = new Controller();
-    
-      
-   }
+
+    public static void main(String[] args) {
+
+//        Controller cldc = new Controller();
+        createTestPeople();
+    }
+
+    private static void createTestPeople() {
+
+        PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
+        TreeSet<PersonYouMayKnow> set = new TreeSet<>();
+
+        System.out.println("Adding items:");
+        queue.addItem(new PersonYouMayKnow("final", "", "", "", "", "", 0, 0));
+        queue.addItem(new PersonYouMayKnow("second", "", "", "", "", "", 5, 0));
+        queue.addItem(new PersonYouMayKnow("first", "", "findme", "", "", "", 5, 2));
+        queue.addItem(new PersonYouMayKnow("third", "", "", "", "", "", 0, 10));
+        System.out.println(queue.toString());
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("Get the item with the string 'findme'");
+
+        PersonYouMayKnow found = queue.getItem("findme");
+        System.out.println("Found: " + found.getFullName());
+
+               System.out.println();
+        System.out.println();
+        System.out.println("Remove the found item");
+        System.out.println();
+        
+        queue.removeItem(found);
+        System.out.println(queue.toString());
+    }
 }

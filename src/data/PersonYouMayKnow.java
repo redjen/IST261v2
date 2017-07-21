@@ -3,7 +3,7 @@ package data;
 /**
  * 
  */
-public class PersonYouMayKnow extends Person {
+public class PersonYouMayKnow extends Person  {
 
     private final int sharedContactsFirstDegree;
     private final int sharedContactsSecondDegree;
@@ -35,14 +35,12 @@ public class PersonYouMayKnow extends Person {
                 && sharedContactsSecondDegree == other.sharedContactsSecondDegree);
     }
 
+    
     public int compareTo(PersonYouMayKnow o) {
         int diff = Integer.compare(sharedContactsFirstDegree, o.sharedContactsFirstDegree);
         if (diff == 0) {
-            diff = Integer.compare(sharedContactsFirstDegree, o.sharedContactsFirstDegree);
-        }
-        if (diff == 0) {
-            diff = getFullName().compareTo(o.getFullName());
-        }
+            diff = Integer.compare(sharedContactsSecondDegree, o.sharedContactsSecondDegree);
+        } 
         return diff;
     }
 

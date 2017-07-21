@@ -122,12 +122,12 @@ public class Person implements Serializable, Comparable<Person> {
 
         Person other = (Person) o;
 
-        return (o != null
+        return (o != null)
                 && firstName.equals(other.getFirstName())
                 && lastName.equals(other.getLastName())
                 && phoneNumber.equals(other.getPhoneNumber())
                 && email.equals(other.getEmail())
                 && twitterId.equals(other.getTwitterId())
-                && facebookId.equals(other.getFacebookId()));
+                && facebookId.equals(other.getFacebookId());
     }
 }
