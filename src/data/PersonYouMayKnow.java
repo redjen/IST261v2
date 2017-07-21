@@ -15,6 +15,17 @@ public class PersonYouMayKnow extends Person {
         this.sharedContactsFirstDegree = sharedContactsFirstDegree;
         this.sharedContactsSecondDegree = sharedContactsSecondDegree;
     }
+    
+    /**
+     * Searches all attributes for the specified string
+     * @param term the string to search for
+     * @return true if the string is found, otherwise false
+     */
+    public boolean containsTerm(String term) {
+        return (getFirstName().contains(term) || getLastName().contains(term) 
+                || getPhoneNumber().contains(term) || getEmail().contains(term)
+                || getTwitterId().contains(term) || getFacebookId().contains(term));
+    }
 
     public boolean equals(Object o) {
         PersonYouMayKnow other = (PersonYouMayKnow) o;
