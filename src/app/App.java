@@ -22,10 +22,11 @@ public class App {
         TreeSet<PersonYouMayKnow> set = new TreeSet<>();
 
         System.out.println("Adding items:");
-        queue.addItem(new PersonYouMayKnow("final", "", "", "", "", "", 0, 0));
-        queue.addItem(new PersonYouMayKnow("second", "", "", "", "", "", 5, 0));
-        queue.addItem(new PersonYouMayKnow("first", "", "findme", "", "", "", 5, 2));
-        queue.addItem(new PersonYouMayKnow("third", "", "", "", "", "", 0, 10));
+        queue.addItem(new PersonYouMayKnow("final", "this item should be last", "", "", "", "", 0, 0));
+        queue.addItem(new PersonYouMayKnow("second", "this item should be second", "", "", "", "", 5, 0));
+        queue.addItem(new PersonYouMayKnow("first", 
+                "this item should be first and the match for the search", "findme", "", "", "", 5, 2));
+        queue.addItem(new PersonYouMayKnow("third", "this item should be  third", "", "", "", "", 0, 10));
         System.out.println(queue.toString());
         
         System.out.println();
