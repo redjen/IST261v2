@@ -6,6 +6,7 @@ package data;
  *
  */
 public class ContactList extends AbstractDataList<Contact> {
+   private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new ContactList populated with test contacts

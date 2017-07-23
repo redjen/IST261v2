@@ -8,6 +8,7 @@ package data;
 public class Contact extends Person implements DataListItem {
 
     private final long id;
+    private static final long serialVersionUID = 1L;
 
     public Contact(long id, String firstName, String lastName, String phoneNumber,
             String email, String twitterId, String facebookId) {

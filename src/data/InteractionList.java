@@ -13,7 +13,7 @@ import java.util.TreeSet;
  */
 public class InteractionList extends AbstractDataList<AbstractInteraction> {
 
-//   private static final long serialVersionUID = 3L;
+   private static final long serialVersionUID = 3L;;
    private final HashMap<Long, TreeSet<AbstractInteraction>> itemsByContactId;
 
    public InteractionList() {

@@ -7,7 +7,7 @@ package data;
 public class TextMessage extends AbstractInteraction {
 
    private static final String ICON_LOCATION = "ic_message_18pt";
-//   private static final long serialVersionUID = 3L;
+   private static final long serialVersionUID = 3L;
 
    public TextMessage(long id, long contactId, String messageText) {
       super(id, contactId, messageText, ICON_LOCATION);

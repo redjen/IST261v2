@@ -12,62 +12,64 @@ import java.time.format.DateTimeFormatter;
 public abstract class AbstractInteraction
         implements Comparable<AbstractInteraction>, Serializable, DataListItem {
 
-    private final long id;
-    private final long contactId;
-    private final String messageText;
-    private final ZonedDateTime timestamp;
-    private final String iconLocation;
+   private static final long serialVersionUID = 1L;
 
-    public AbstractInteraction(long id, long contactId, String messageText, String iconLocation) {
-        this(id, contactId, messageText, ZonedDateTime.now().toString(), iconLocation);
-    }
+   private final long id;
+   private final long contactId;
+   private final String messageText;
+   private final ZonedDateTime timestamp;
+   private final String iconLocation;
 
-    public AbstractInteraction(long id, long contactId, String messageText, String timestampString, String iconLocation) {
-        this.id = id;
-        this.contactId = contactId;
-        this.messageText = messageText;
-        this.timestamp = ZonedDateTime.parse(timestampString);
-        this.iconLocation = iconLocation;
-    }
+   public AbstractInteraction(long id, long contactId, String messageText, String iconLocation) {
+      this(id, contactId, messageText, ZonedDateTime.now().toString(), iconLocation);
+   }
 
-    /**
-     * Provides a short text summary of the interaction for display
-     *
-     * @return text summary
-     */
-    public String getSummaryText() {
-        return this.messageText;
-    }
+   public AbstractInteraction(long id, long contactId, String messageText, String timestampString, String iconLocation) {
+      this.id = id;
+      this.contactId = contactId;
+      this.messageText = messageText;
+      this.timestamp = ZonedDateTime.parse(timestampString);
+      this.iconLocation = iconLocation;
+   }
 
-    @Override
-    public long getId() {
-        return id;
-    }
+   /**
+    * Provides a short text summary of the interaction for display
+    *
+    * @return text summary
+    */
+   public String getSummaryText() {
+      return this.messageText;
+   }
 
-    public long getContactId() {
-        return contactId;
-    }
+   @Override
+   public long getId() {
+      return id;
+   }
 
-    public String getIconLocation() {
-        return iconLocation;
-    }
+   public long getContactId() {
+      return contactId;
+   }
 
-    public String getMessageText() {
-        return messageText;
-    }
+   public String getIconLocation() {
+      return iconLocation;
+   }
 
-    public ZonedDateTime getTimestamp() {
-        return timestamp;
-    }
+   public String getMessageText() {
+      return messageText;
+   }
 
-    public String getLocalTimestampString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/y h:m a");
-        return timestamp.toLocalDateTime().format(dtf);
-    }
+   public ZonedDateTime getTimestamp() {
+      return timestamp;
+   }
 
-    @Override
-    public int compareTo(AbstractInteraction o) {
-        return o.getTimestamp().compareTo(this.getTimestamp());
-    }
+   public String getLocalTimestampString() {
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/y h:m a");
+      return timestamp.toLocalDateTime().format(dtf);
+   }
+
+   @Override
+   public int compareTo(AbstractInteraction o) {
+      return o.getTimestamp().compareTo(this.getTimestamp());
+   }
 
 }
