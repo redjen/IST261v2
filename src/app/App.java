@@ -2,7 +2,6 @@ package app;
 
 import data.PersonYouMayKnow;
 import data.PersonYouMayKnowQueue;
-import java.util.TreeSet;
 
 /**
  * App is the application's main method
@@ -10,37 +9,35 @@ import java.util.TreeSet;
  */
 public class App {
 
-    public static void main(String[] args) {
+   public static void main(String[] args) {
 
-        Controller cldc = new Controller();
-        createTestPeople();
-    }
+      Controller cldc = new Controller();
+      PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
+      testLinkedList();
+   }
 
-    private static void createTestPeople() {
+   /**
+    * Demonstrates the use of PersonYouMayKnowQueue for the assignment
+    * "M08-A01 Implementing a LinkedList"
+    */
+   private static void testLinkedList() {
 
-        PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
+      PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
 
-        System.out.println("Adding items:");
-        queue.addItem(new PersonYouMayKnow("final", "this item should be last", "", "", "", "", 0, 0));
-        queue.addItem(new PersonYouMayKnow("second", "this item should be second", "", "", "", "", 5, 0));
-        queue.addItem(new PersonYouMayKnow("first", 
-                "this item should be first and the match for the search", "findme", "", "", "", 5, 2));
-        queue.addItem(new PersonYouMayKnow("third", "this item should be  third", "", "", "", "", 0, 10));
-        System.out.println(queue.toString());
-        
-        System.out.println();
-        System.out.println();
-        System.out.println("Get the item with the string 'findme'");
+      queue.addItem(new PersonYouMayKnow("new item", "this item should now be third", "", "", "", "", 4, 3));
+      System.out.println("=====\n\nLinkedList with added item:");
+      System.out.println(queue.toString());
 
-        PersonYouMayKnow found = queue.getItem("findme");
-        System.out.println("Found: " + found.getFullName());
+      System.out.println();
+      System.out.println();
+      
+      System.out.println("=====\n\nGet the item with the string 'should now'");
+      PersonYouMayKnow found = queue.getItem("should now");
+      System.out.println("Found: " + found.getFullName());
 
-               System.out.println();
-        System.out.println();
-        System.out.println("Remove the found item");
-        System.out.println();
-        
-        queue.removeItem(found);
-        System.out.println(queue.toString());
-    }
+      System.out.println("=====\n\nRemove the found item");
+      System.out.println("LinkedList with removed item:");
+      queue.removeItem(found);
+      System.out.println(queue.toString());
+   }
 }
