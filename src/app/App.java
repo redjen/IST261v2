@@ -12,14 +12,13 @@ public class App {
 
     public static void main(String[] args) {
 
-//        Controller cldc = new Controller();
+        Controller cldc = new Controller();
         createTestPeople();
     }
 
     private static void createTestPeople() {
 
         PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
-        TreeSet<PersonYouMayKnow> set = new TreeSet<>();
 
         System.out.println("Adding items:");
         queue.addItem(new PersonYouMayKnow("final", "this item should be last", "", "", "", "", 0, 0));
