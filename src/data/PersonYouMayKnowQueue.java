@@ -4,7 +4,9 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 /**
- *
+ * PersonYouMayKnowQueue manages a list of PersonYouMayKnow objects. 
+ * 
+ * @see PersonYouMayKnow
  */
 public class PersonYouMayKnowQueue {
 
