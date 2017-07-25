@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 import java.io.Serializable;
@@ -22,129 +18,159 @@ import java.util.List;
  */
 public class ContactSearchIndex implements Serializable {
 
-    private final HashMap<String, HashSet<Contact>> terms;
-    private final HashMap<Contact, HashSet<String>> contacts;
+   private final HashMap<String, HashSet<Contact>> terms;
 
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-    public ContactSearchIndex() {
+   /**
+    * Constructs a new, empty search index
+    */
+   public ContactSearchIndex() {
 
-        terms = new HashMap<>();
-        contacts = new HashMap<>();
+      terms = new HashMap<>();
 
-    }
+   }
 
-    /**
-     * Returns all contacts matching the term
-     *
-     * @param searchTerm the search term
-     * @return the list of all matching contacts (empty if none found)
-     */
-    public HashSet<Contact> getMatchesFor(String searchTerm) {
-        return terms.getOrDefault(searchTerm, new HashSet<>());
-    }
+   /**
+    * Returns all contacts matching the term
+    *
+    * @param searchTerm the search term
+    * @return the list of all matching contacts (empty if none found)
+    */
+   public HashSet<Contact> getMatchesFor(String searchTerm) {
+      return terms.getOrDefault(searchTerm, new HashSet<>());
+   }
 
-    /**
-     * Indexes a contact
-     *
-     * @param contact the contact to index
-     */
-    public void createAllIndexesFor(Contact contact) {
-        // TODO how to handle terms less than 3 characters?
-        HashSet<String> indexes = getIndexesFor(contact);
+   /**
+    * Indexes a contact
+    *
+    * @param contact the contact to index
+    */
+   public void createAllIndexesFor(Contact contact) {
+      // TODO how to handle terms less than 3 characters?
+      HashSet<String> indexes = getIndexesFor(contact);
 
-        for (String index : indexes) {
-            terms.putIfAbsent(index, new HashSet<>());
-            contacts.putIfAbsent(contact, new HashSet<>());
-            terms.get(index).add(contact);
-            contacts.get(contact).add(index);
-        }
-    }
+      for (String index : indexes) {
+         terms.putIfAbsent(index, new HashSet<>());
+         terms.get(index).add(contact);
+      }
+   }
 
-    /**
-     * Deletes all indexes for a contact
-     *
-     * @param contact the contact to be deleted
-     */
-    public void deleteAllIndexesFor(Contact contact) {
+   /**
+    * Deletes all indexes for a contact
+    *
+    * @param contact the contact to be deleted
+    */
+   public void deleteAllIndexesFor(Contact contact) {
 
-        HashSet<String> indexes = getIndexesFor(contact);
-        for (String index : indexes) {
-            terms.get(index).remove(contact);
-            if (terms.get(index).size() == 0) {
-                terms.remove(index);
+      HashSet<String> indexes = getIndexesFor(contact);
+      for (String index : indexes) {
+         terms.get(index).remove(contact);
+         if (terms.get(index).isEmpty()) {
+            terms.remove(index);
+         }
+      }
+   }
+
+   /**
+    * Updates the indexes for a contact by removing and adding lists of search
+    * terms
+    *
+    * @param contact the contact to be change
+    * @param oldTerms search terms to be removed
+    * @param newTerms new search terms to be added
+    */
+   public void updateIndexesFor(Contact contact, List<String> oldTerms, List<String> newTerms) {
+     
+      if (oldTerms != null && !oldTerms.isEmpty()) {
+         for (String oldTerm : oldTerms) {
+            HashSet<String> indexes = getSubstringsOf(oldTerm);
+            for (String index : indexes) {
+               terms.getOrDefault(index, new HashSet<>()).remove(contact);
             }
-        }
 
-        contacts.remove(contact);
+         }
+      }
 
-    }
-
-    /**
-     * Updates the indexes for a contact by removing and adding lists of search
-     * terms
-     *
-     * @param contact the contact to be change
-     * @param newTerms new search terms to be added
-     * @param oldTerms old search terms to be removed
-     */
-    public void updateIndexesFor(Contact contact, List<String> newTerms, List<String> oldTerms) {
-        
-    }
-
-    /**
-     * Tests the index for emptiness
-     *
-     * @return true is empty, false otherwise
-     */
-    public boolean isEmpty() {
-        return terms.isEmpty();
-    }
-    
-    public int size() {
-        return terms.size();
-    }
-    
-    public boolean containsKey(String term) {
-        return terms.containsKey(term);
-    }
-
-    /**
-     * Generate the complete list of indexes for a contact covering all fields
-     *
-     * @param contact the contact to index
-     * @return the list of indexes
-     */
-    public HashSet<String> getIndexesFor(Contact contact) {
-        HashSet<String> indexes = new HashSet<>();
-        ArrayList<String> terms = new ArrayList<>(6);
-
-        terms.add(contact.getEmail());
-        terms.add(contact.getFacebookId());
-        terms.add(contact.getFirstName());
-        terms.add(contact.getLastName());
-        terms.add(contact.getPhoneNumber());
-        terms.add(contact.getTwitterId());
-
-        for (String term : terms) {
-            if (term != null && term.length() > 0) {
-                indexes.addAll(getSubstringsOf(term));
+      if (newTerms != null && !newTerms.isEmpty()) {
+         for (String newTerm : newTerms) {
+            HashSet<String> indexes = getSubstringsOf(newTerm);
+            for (String index : indexes) {
+               terms.putIfAbsent(index, new HashSet<>());
+               terms.get(index).add(contact);
             }
-        }
 
-        return indexes;
-    }
+         }
+      }
+   }
 
-    public HashSet<String> getSubstringsOf(String term) {
-        HashSet<String> substrings = new HashSet<>();
+   /**
+    * Tests the index for emptiness
+    *
+    * @return true is empty, false otherwise
+    */
+   public boolean isEmpty() {
+      return terms.isEmpty();
+   }
 
-        for (int i = 0; i <= term.length() - 3; i++) {
-            for (int j = i + 3; j <= term.length(); j++) {
-                substrings.add(term.substring(i, j).toLowerCase());
-            }
-        }
+   /**
+    * Returns the number of items in the search index
+    * @return the number of items
+    */
+   public int size() {
+      return terms.size();
+   }
 
-        return substrings;
-    }
+   /**
+    * Tests for the specified key
+    * @param term the search term
+    * @return 
+    */
+   public boolean containsKey(String term) {
+      return terms.containsKey(term);
+   }
+
+   /**
+    * Generate the complete list of indexes for a contact covering all fields
+    *
+    * @param contact the contact to index
+    * @return the list of indexes
+    */
+   public HashSet<String> getIndexesFor(Contact contact) {
+      HashSet<String> indexes = new HashSet<>();
+      ArrayList<String> searchTerms = new ArrayList<>(6);
+
+      searchTerms.add(contact.getEmail());
+      searchTerms.add(contact.getFacebookId());
+      searchTerms.add(contact.getFirstName());
+      searchTerms.add(contact.getLastName());
+      searchTerms.add(contact.getPhoneNumber());
+      searchTerms.add(contact.getTwitterId());
+
+      for (String term : searchTerms) {
+         if (term != null && term.length() > 0) {
+            indexes.addAll(getSubstringsOf(term));
+         }
+      }
+
+      return indexes;
+   }
+
+   /**
+    * Generates the substrings of the specified string of minimum length 3
+    * @param term
+    * @return 
+    */
+   public HashSet<String> getSubstringsOf(String term) {
+      HashSet<String> substrings = new HashSet<>();
+
+      for (int i = 0; i <= term.length() - 3; i++) {
+         for (int j = i + 3; j <= term.length(); j++) {
+            substrings.add(term.substring(i, j).toLowerCase());
+         }
+      }
+
+      return substrings;
+   }
 
 }
