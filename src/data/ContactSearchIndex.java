@@ -1,4 +1,3 @@
-
 package data;
 
 import java.io.Serializable;
@@ -26,9 +25,19 @@ public class ContactSearchIndex implements Serializable {
     * Constructs a new, empty search index
     */
    public ContactSearchIndex() {
-
       terms = new HashMap<>();
+   }
 
+   /**
+    * Constructs a new search index populated with the specified contacts
+    *
+    * @param contacts the contacts used for the search index
+    */
+   public ContactSearchIndex(List<Contact> contacts) {
+      terms = new HashMap<>();
+      for (Contact contact : contacts) {
+         createAllIndexesFor(contact);
+      }
    }
 
    /**
@@ -81,7 +90,7 @@ public class ContactSearchIndex implements Serializable {
     * @param newTerms new search terms to be added
     */
    public void updateIndexesFor(Contact contact, List<String> oldTerms, List<String> newTerms) {
-     
+
       if (oldTerms != null && !oldTerms.isEmpty()) {
          for (String oldTerm : oldTerms) {
             HashSet<String> indexes = getSubstringsOf(oldTerm);
@@ -115,6 +124,7 @@ public class ContactSearchIndex implements Serializable {
 
    /**
     * Returns the number of items in the search index
+    *
     * @return the number of items
     */
    public int size() {
@@ -123,8 +133,9 @@ public class ContactSearchIndex implements Serializable {
 
    /**
     * Tests for the specified key
+    *
     * @param term the search term
-    * @return 
+    * @return
     */
    public boolean containsKey(String term) {
       return terms.containsKey(term);
@@ -158,8 +169,9 @@ public class ContactSearchIndex implements Serializable {
 
    /**
     * Generates the substrings of the specified string of minimum length 3
+    *
     * @param term
-    * @return 
+    * @return
     */
    public HashSet<String> getSubstringsOf(String term) {
       HashSet<String> substrings = new HashSet<>();
