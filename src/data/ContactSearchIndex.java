@@ -89,7 +89,7 @@ public class ContactSearchIndex implements Serializable {
      * @param oldTerms old search terms to be removed
      */
     public void updateIndexesFor(Contact contact, List<String> newTerms, List<String> oldTerms) {
-
+        
     }
 
     /**
