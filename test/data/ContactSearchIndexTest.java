@@ -65,7 +65,7 @@ public class ContactSearchIndexTest {
             assertTrue(String.format("Expected to find %s but was not found%n", expected),
                     csi.getMatchesFor(expected).contains(contact2));
         }
-        
+
         assertEquals(2, csi.getMatchesFor("tes").size());
         assertEquals(2, csi.getMatchesFor("est").size());
         assertEquals(2, csi.getMatchesFor("test").size());
@@ -75,13 +75,35 @@ public class ContactSearchIndexTest {
      * Test of deleteAllIndexesFor method, of class ContactSearchIndex.
      */
     @Test
-    public void testDeleteAllIndexesFor() {
-        System.out.println("deleteAllIndexesFor");
-        Contact contact = null;
-        ContactSearchIndex instance = new ContactSearchIndex();
-        instance.deleteAllIndexesFor(contact);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDeleteAllIndexesForSingle() {
+        csi.createAllIndexesFor(contact);
+        csi.deleteAllIndexesFor(contact);
+        assertTrue(csi.isEmpty());
+
+    }
+
+    /**
+     * Test of deleteAllIndexesFor method, of class ContactSearchIndex.
+     */
+    @Test
+    public void testDeleteAllIndexesForDouble() {
+        Contact contact2 = new Contact(1, "testfirst", "");
+        HashSet<String> expectedRetained = csi.getIndexesFor(contact);
+
+        HashSet<String> expectedRemoved = csi.getIndexesFor(contact2);
+        expectedRemoved.removeAll(expectedRetained);
+
+        csi.createAllIndexesFor(contact);
+        csi.createAllIndexesFor(contact2);
+        csi.deleteAllIndexesFor(contact2);
+
+        for (String expected : expectedRetained) {
+            assertEquals(1, csi.getMatchesFor(expected).size());
+        }
+        
+        for (String expected : expectedRemoved) {
+            assertEquals(false, csi.containsKey(expected));
+        }
     }
 
     /**

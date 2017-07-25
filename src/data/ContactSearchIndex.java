@@ -68,6 +68,16 @@ public class ContactSearchIndex implements Serializable {
      */
     public void deleteAllIndexesFor(Contact contact) {
 
+        HashSet<String> indexes = getIndexesFor(contact);
+        for (String index : indexes) {
+            terms.get(index).remove(contact);
+            if (terms.get(index).size() == 0) {
+                terms.remove(index);
+            }
+        }
+
+        contacts.remove(contact);
+
     }
 
     /**
@@ -80,6 +90,23 @@ public class ContactSearchIndex implements Serializable {
      */
     public void updateIndexesFor(Contact contact, List<String> newTerms, List<String> oldTerms) {
 
+    }
+
+    /**
+     * Tests the index for emptiness
+     *
+     * @return true is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return terms.isEmpty();
+    }
+    
+    public int size() {
+        return terms.size();
+    }
+    
+    public boolean containsKey(String term) {
+        return terms.containsKey(term);
     }
 
     /**
