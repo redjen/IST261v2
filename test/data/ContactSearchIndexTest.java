@@ -96,14 +96,10 @@ public class ContactSearchIndexTest {
      */
     @Test
     public void testGetIndexesFor() {
-        System.out.println("getIndexesFor");
-        Contact contact = null;
-        ContactSearchIndex instance = new ContactSearchIndex();
-        HashSet<String> expResult = null;
-        HashSet<String> result = instance.getIndexesFor(contact);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        HashSet<String> result = index.getIndexesFor(contact);
+        for (String string : result) {
+            System.out.println(string);
+        }
     }
 
     /**

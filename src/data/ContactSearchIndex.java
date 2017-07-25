@@ -52,7 +52,7 @@ public class ContactSearchIndex implements Serializable {
      * @param contact the contact to index
      */
     public void createAllIndexesFor(Contact contact) {
-        
+
     }
 
     /**
@@ -84,21 +84,33 @@ public class ContactSearchIndex implements Serializable {
      */
     public HashSet<String> getIndexesFor(Contact contact) {
         HashSet<String> indexes = new HashSet<>();
-        
+        ArrayList<String> terms = new ArrayList<>(6);
 
-        
+        terms.add(contact.getEmail());
+        terms.add(contact.getFacebookId());
+        terms.add(contact.getFirstName());
+        terms.add(contact.getLastName());
+        terms.add(contact.getPhoneNumber());
+        terms.add(contact.getTwitterId());
+
+        for (String term : terms) {
+            if (term != null && term.length() > 0) {
+                indexes.addAll(getSubstringsOf(term));
+            }
+        }
+
         return indexes;
     }
-    
+
     public HashSet<String> getSubstringsOf(String term) {
         HashSet<String> substrings = new HashSet<>();
-        
+
         for (int i = 0; i <= term.length() - 3; i++) {
-            for (int j = i+3; j <= term.length(); j++) {
+            for (int j = i + 3; j <= term.length(); j++) {
                 substrings.add(term.substring(i, j).toLowerCase());
             }
         }
-        
+
         return substrings;
     }
 
