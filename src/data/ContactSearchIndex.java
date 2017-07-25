@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ContactSearchIndex implements Serializable {
 
-    private final HashMap<String, HashSet<String>> terms;
+    private final HashMap<String, HashSet<Contact>> terms;
     private final HashMap<Contact, HashSet<String>> contacts;
 
     private static final long serialVersionUID = 1L;
@@ -40,10 +40,8 @@ public class ContactSearchIndex implements Serializable {
      * @param searchTerm the search term
      * @return the list of all matching contacts (empty if none found)
      */
-    public ArrayList<Contact> getMatchesFor(String searchTerm) {
-        ArrayList<Contact> matches = new ArrayList<>();
-
-        return matches;
+    public HashSet<Contact> getMatchesFor(String searchTerm) {
+        return terms.getOrDefault(searchTerm, new HashSet<>());
     }
 
     /**
@@ -52,7 +50,15 @@ public class ContactSearchIndex implements Serializable {
      * @param contact the contact to index
      */
     public void createAllIndexesFor(Contact contact) {
+        // TODO how to handle terms less than 3 characters?
+        HashSet<String> indexes = getIndexesFor(contact);
 
+        for (String index : indexes) {
+            terms.putIfAbsent(index, new HashSet<>());
+            contacts.putIfAbsent(contact, new HashSet<>());
+            terms.get(index).add(contact);
+            contacts.get(contact).add(index);
+        }
     }
 
     /**

@@ -18,36 +18,21 @@ import static org.junit.Assert.*;
  * @author jsm
  */
 public class ContactSearchIndexTest {
-    
+
     private static Contact contact;
-    private static ContactSearchIndex index;
-    
+    private static ContactSearchIndex csi;
+
     public ContactSearchIndexTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         contact = new Contact(0, "test1", "test2", "555", "aa", "twitter", "facebook");
-        index = new ContactSearchIndex();
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
+        csi = new ContactSearchIndex();
     }
 
-    /**
-     * Test of getMatchesFor method, of class ContactSearchIndex.
-     */
-    @Test
-    public void testGetMatchesFor() {
-        System.out.println("getMatchesFor");
-        String searchTerm = "";
-        ContactSearchIndex instance = new ContactSearchIndex();
-        ArrayList<Contact> expResult = null;
-        ArrayList<Contact> result = instance.getMatchesFor(searchTerm);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @AfterClass
+    public static void tearDownClass() {
     }
 
     /**
@@ -55,12 +40,35 @@ public class ContactSearchIndexTest {
      */
     @Test
     public void testCreateAllIndexesFor() {
-        System.out.println("createAllIndexesFor");
-        Contact contact = null;
-        ContactSearchIndex instance = new ContactSearchIndex();
-        instance.createAllIndexesFor(contact);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        HashSet<String> expectedResults = csi.getIndexesFor(contact);
+        csi.createAllIndexesFor(contact);
+
+        for (String expected : expectedResults) {
+            assertTrue(String.format("Expected to find %s but result was empty%n", expected),
+                    csi.getMatchesFor(expected).size() > 0);
+            assertTrue(String.format("Expected to find %s but was not found%n", expected),
+                    csi.getMatchesFor(expected).contains(contact));
+        }
+    }
+
+    /**
+     * Test of createAllIndexesFor method, of class ContactSearchIndex.
+     */
+    @Test
+    public void testCreateAllIndexesForTwo() {
+        Contact contact2 = new Contact(1, "testfirst", "");
+        HashSet<String> expectedResults = csi.getIndexesFor(contact2);
+        csi.createAllIndexesFor(contact);
+        csi.createAllIndexesFor(contact2);
+
+        for (String expected : expectedResults) {
+            assertTrue(String.format("Expected to find %s but was not found%n", expected),
+                    csi.getMatchesFor(expected).contains(contact2));
+        }
+        
+        assertEquals(2, csi.getMatchesFor("tes").size());
+        assertEquals(2, csi.getMatchesFor("est").size());
+        assertEquals(2, csi.getMatchesFor("test").size());
     }
 
     /**
@@ -96,7 +104,7 @@ public class ContactSearchIndexTest {
      */
     @Test
     public void testGetIndexesFor() {
-        HashSet<String> result = index.getIndexesFor(contact);
+        HashSet<String> result = csi.getIndexesFor(contact);
         for (String string : result) {
             System.out.println(string);
         }
@@ -107,16 +115,16 @@ public class ContactSearchIndexTest {
      */
     @Test
     public void testGetSubstringsOf() {
-        HashSet<String> result = index.getSubstringsOf("tesTtest");
-        String[] expectedResults = {"tes", "est", "stt", "tte", "test", "estt", "stte", "ttes", 
-            "testt", "estte", "sttes", "ttest", "testte", "esttes", "sttest", 
+        HashSet<String> result = csi.getSubstringsOf("tesTtest");
+        String[] expectedResults = {"tes", "est", "stt", "tte", "test", "estt", "stte", "ttes",
+            "testt", "estte", "sttes", "ttest", "testte", "esttes", "sttest",
             "testtes", "esttest", "testtest"};
-        
+
         assertEquals(expectedResults.length, result.size());
         for (String expected : expectedResults) {
             assertTrue(result.contains(expected));
         }
-        
+
     }
-    
+
 }
