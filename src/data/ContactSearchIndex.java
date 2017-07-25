@@ -184,5 +184,15 @@ public class ContactSearchIndex implements Serializable {
 
       return substrings;
    }
+   
+   public void printIndex() {
+      for (String term : terms.keySet()) {
+         System.out.printf("[%s]: ", term);
+         for (Contact contact : terms.get(term)) {
+            System.out.print(contact.getId() + " ");
+         }
+         System.out.println();
+      }
+   }
 
 }

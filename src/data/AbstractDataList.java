@@ -94,8 +94,17 @@ public abstract class AbstractDataList<T extends DataListItem> extends Observabl
       });
    }
 
+   @Override
    public int size() {
       return items.size();
+   }
+   
+   /**
+    * Returns a shallow copy of the item list
+    * @return 
+    */
+   public ArrayList<T> getList() {
+      return (ArrayList<T>) items.clone();
    }
 
    /**

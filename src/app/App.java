@@ -13,7 +13,9 @@ public class App {
 
       Controller cldc = new Controller();
       PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
-      testLinkedList();
+
+//       this was for M08-A01
+//      testLinkedList();
    }
 
    /**
@@ -30,7 +32,7 @@ public class App {
 
       System.out.println();
       System.out.println();
-      
+
       System.out.println("=====\n\nGet the item with the string 'should now'");
       PersonYouMayKnow found = queue.getItem("should now");
       System.out.println("Found: " + found.getFullName());

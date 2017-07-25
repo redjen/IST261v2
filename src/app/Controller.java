@@ -3,6 +3,7 @@ package app;
 import data.AbstractInteraction;
 import data.Contact;
 import data.ContactList;
+import data.ContactSearchIndex;
 import data.ContactTableModel;
 import data.InteractionList;
 import data.InteractionTableModel;
@@ -27,6 +28,8 @@ public class Controller {
 
    private final InteractionList interactionList;
    private final InteractionTableModel interactionTableModel;
+   
+   private final ContactSearchIndex csi;
 
    private final AppFrame appFrame;
    private final MainPanel mainPanel;
@@ -48,6 +51,10 @@ public class Controller {
       interactionList = persistDataController.getInteractions();
       interactionTableModel = new InteractionTableModel(interactionList, this);
       interactionTableModel.addTableModelListener(persistDataController);
+      
+      // search index
+      csi = new ContactSearchIndex(contactList.getList());
+      csi.printIndex();
       
       appFrame = new AppFrame("Contacts");
       mainPanel = new MainPanel(contactTableModel, interactionTableModel);
