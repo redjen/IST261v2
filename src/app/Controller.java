@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JTable;
 
@@ -54,7 +55,9 @@ public class Controller {
       
       // search index
       csi = new ContactSearchIndex(contactList.getList());
-      csi.printIndex();
+      try (PrintWriter out = new PrintWriter(System.out)) {
+          csi.printIndex(out);
+      }
       
       appFrame = new AppFrame("Contacts");
       mainPanel = new MainPanel(contactTableModel, interactionTableModel);
@@ -253,7 +256,6 @@ public class Controller {
       appFrame.addWindowListener(new WindowAdapter() {
          @Override
          public void windowClosing(WindowEvent e) {
-            System.out.println("closing");
             handleExit();
          }
       });

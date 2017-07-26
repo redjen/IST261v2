@@ -103,15 +103,11 @@ public class PersonYouMayKnowQueue {
     */
    private void createTestData() {
 
-      System.out.println("Creating test data...");
-
       addItem(new PersonYouMayKnow("final", "test item", "", "", "", "", 0, 0));
       addItem(new PersonYouMayKnow("second", "test item", "", "", "", "", 5, 0));
       addItem(new PersonYouMayKnow("first",
               "test item", "", "", "", "", 5, 2));
       addItem(new PersonYouMayKnow("third", "test item", "", "", "", "", 0, 10));
-
-      System.out.println();
    }
 
    /**
