@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.TableModelEvent;
@@ -32,9 +33,14 @@ public class PersistDataController implements Observer, TableModelListener {
    private final static String TEST_INTERACTIONS_DATA_FILE = "resources/defaultData/interactions.txt";
 
    private final SerializedDataCollection data;
+   private final static Logger log = Logger.getLogger("PersistDataController");
 
    public PersistDataController() {
       this.data = readData();
+      
+      // logging
+      log.addHandler(new ConsoleHandler());
+      log.setLevel(Level.INFO);
    }
 
    /**
@@ -129,8 +135,8 @@ public class PersistDataController implements Observer, TableModelListener {
       sdc.getContactList().addAll(getTestContacts());
       sdc.getInteractionList().addAll(getTestInteractions());
       writeData(sdc);
-      System.out.printf("Test data imported: %d contacts, %d interactions",
-              sdc.getContactList().size(), sdc.getInteractionList().size());
+      log.log(Level.INFO, String.format("Test data imported: %d contacts, %d interactions",
+              sdc.getContactList().size(), sdc.getInteractionList().size()));
    }
 
    /**
