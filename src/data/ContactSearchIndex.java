@@ -185,6 +185,9 @@ public class ContactSearchIndex implements Serializable {
       return substrings;
    }
    
+   /**
+    * Prints the contents of the index to the console
+    */
    public void printIndex() {
       for (String term : terms.keySet()) {
          System.out.printf("[%s]: ", term);
