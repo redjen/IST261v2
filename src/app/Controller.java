@@ -4,6 +4,7 @@ import data.AbstractInteraction;
 import data.Contact;
 import data.ContactList;
 import data.ContactSearchIndex;
+import data.ContactSearchIndexRowFilter;
 import data.ContactTableModel;
 import data.InteractionList;
 import data.InteractionTableModel;
@@ -14,7 +15,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.swing.DefaultRowSorter;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * Controller is the main controller for the application
@@ -36,6 +40,7 @@ public class Controller {
    private final MainPanel mainPanel;
    private ContactDetailView contactView;
    private final JTable contactListTable;
+   private final TableRowSorter sorter;
 
    public Controller() {
 
@@ -47,8 +52,8 @@ public class Controller {
       contactList = persistDataController.getContacts();
       contactTableModel = new ContactTableModel(contactList);
       contactTableModel.addTableModelListener(persistDataController);
-
-      // interaction model and views
+      
+// interaction model and views
       interactionList = persistDataController.getInteractions();
       interactionTableModel = new InteractionTableModel(interactionList, this);
       interactionTableModel.addTableModelListener(persistDataController);
@@ -64,7 +69,10 @@ public class Controller {
       appFrame.setContentPane(mainPanel);
 
       contactListTable = mainPanel.getContactTablePanel().getContactTable();
-      contactListTable.setAutoCreateRowSorter(true);
+      sorter = new TableRowSorter(contactTableModel);
+      contactListTable.setRowSorter(sorter);
+//      sorter.setRowFilter(new ContactSearchIndexRowFilter(csi, "st11"));
+      
 
       appFrame.setVisible(true);
 
