@@ -36,7 +36,7 @@ public class ContactSearchIndexTest {
          assertTrue(String.format("Expected to find %s but result was empty%n", expected),
                  csi.getMatchesFor(expected).size() > 0);
          assertTrue(String.format("Expected to find %s but was not found%n", expected),
-                 csi.getMatchesFor(expected).contains(contact));
+                 csi.getMatchesFor(expected).contains(contact.getId()));
       }
    }
 
@@ -52,7 +52,7 @@ public class ContactSearchIndexTest {
 
       for (String expected : expectedResults) {
          assertTrue(String.format("Expected to find %s but was not found%n", expected),
-                 csi.getMatchesFor(expected).contains(contact2));
+                 csi.getMatchesFor(expected).contains(contact2.getId()));
       }
 
       assertEquals(2, csi.getMatchesFor("tes").size());
@@ -110,12 +110,12 @@ public class ContactSearchIndexTest {
 
       for (String term : csi.getSubstringsOf("twitter")) {
          assertFalse(String.format("Expected <false> for %s but got <true>", term),
-                 csi.getMatchesFor(term).contains(contact));
+                 csi.getMatchesFor(term).contains(contact.getId()));
       }
 
       for (String term : csi.getSubstringsOf("replaced")) {
          assertTrue(String.format("Expected <true> for %s but got <false>", term),
-                 csi.getMatchesFor(term).contains(contact));
+                 csi.getMatchesFor(term).contains(contact.getId()));
       }
    }
 

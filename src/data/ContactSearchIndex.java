@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class ContactSearchIndex implements Serializable {
 
-    private final HashMap<String, HashSet<Contact>> terms;
+    private final HashMap<String, HashSet<Long>> terms;
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     /**
      * Constructs a new, empty search index
@@ -47,7 +47,7 @@ public class ContactSearchIndex implements Serializable {
      * @param searchTerm the search term
      * @return the list of all matching contacts (empty if none found)
      */
-    public HashSet<Contact> getMatchesFor(String searchTerm) {
+    public HashSet<Long> getMatchesFor(String searchTerm) {
         return terms.getOrDefault(searchTerm, new HashSet<>());
     }
 
@@ -62,7 +62,7 @@ public class ContactSearchIndex implements Serializable {
 
         for (String index : indexes) {
             terms.putIfAbsent(index, new HashSet<>());
-            terms.get(index).add(contact);
+            terms.get(index).add(contact.getId());
         }
     }
 
@@ -75,7 +75,7 @@ public class ContactSearchIndex implements Serializable {
 
         HashSet<String> indexes = getIndexesFor(contact);
         for (String index : indexes) {
-            terms.get(index).remove(contact);
+            terms.get(index).remove(contact.getId());
             if (terms.get(index).isEmpty()) {
                 terms.remove(index);
             }
@@ -96,7 +96,7 @@ public class ContactSearchIndex implements Serializable {
             for (String oldTerm : oldTerms) {
                 HashSet<String> indexes = getSubstringsOf(oldTerm);
                 for (String index : indexes) {
-                    terms.getOrDefault(index, new HashSet<>()).remove(contact);
+                    terms.getOrDefault(index, new HashSet<>()).remove(contact.getId());
                 }
 
             }
@@ -107,7 +107,7 @@ public class ContactSearchIndex implements Serializable {
                 HashSet<String> indexes = getSubstringsOf(newTerm);
                 for (String index : indexes) {
                     terms.putIfAbsent(index, new HashSet<>());
-                    terms.get(index).add(contact);
+                    terms.get(index).add(contact.getId());
                 }
 
             }
@@ -192,8 +192,8 @@ public class ContactSearchIndex implements Serializable {
     public void printIndex(PrintWriter out) {
         for (String term : terms.keySet()) {
             out.format("%n%n[%s]: %n", term);
-            for (Contact contact : terms.get(term)) {
-                out.format("%d ", contact.getId());
+            for (long id : terms.get(term)) {
+                out.format("%d ", id);
                 out.println();
                 out.flush();
             }
