@@ -24,6 +24,7 @@ public class ContactTablePanel extends CardPanelBase {
     private final JButton detailButton;
     private final JTextField searchField;
     private final JButton searchButton;
+    private final JButton clearSearchButton;
     private final JTable contactTable;
 
     public ContactTablePanel(ContactTableModel model) {
@@ -48,6 +49,10 @@ public class ContactTablePanel extends CardPanelBase {
         searchButton = new JButton("Search");
         searchButton.setToolTipText("search");
         addToButtonPanel(searchButton);
+        
+        clearSearchButton = new JButton("Clear");
+        clearSearchButton.setToolTipText("clear search");
+        addToButtonPanel(clearSearchButton);
 
         contactTable = new JTable(model);
         setContent(contactTable);
@@ -73,6 +78,12 @@ public class ContactTablePanel extends CardPanelBase {
     public JButton getSearchButton() {
         return searchButton;
     }
+
+    public JButton getClearSearchButton() {
+        return clearSearchButton;
+    }
+    
+    
 
     public JTable getContactTable() {
         return contactTable;
