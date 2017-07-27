@@ -1,5 +1,6 @@
-package data;
+package search;
 
+import data.Contact;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;

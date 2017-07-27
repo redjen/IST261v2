@@ -1,5 +1,7 @@
-package data;
+package search;
 
+import data.ContactTableModel;
+import search.ContactSearchIndex;
 import javax.swing.RowFilter;
 
 /**

@@ -1,6 +1,8 @@
 
-package data;
+package search;
 
+import data.Contact;
+import search.ContactSearchIndex;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.junit.Test;
