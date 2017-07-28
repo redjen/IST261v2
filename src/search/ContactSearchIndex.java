@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -192,13 +193,12 @@ public class ContactSearchIndex implements Serializable {
      */
     public void printIndex(PrintWriter out) {
         for (String term : terms.keySet()) {
-            out.format("%n%n[%s]: %n", term);
+            out.format("%n[%s]: ", term);
             for (long id : terms.get(term)) {
                 out.format("%d ", id);
-                out.println();
-                out.flush();
             }
         }
+        out.flush();
     }
 
 }
