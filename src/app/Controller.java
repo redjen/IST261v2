@@ -139,25 +139,28 @@ public class Controller {
     private void handleSaveButton() {
         if (isCreatingNewContact) {
 
-            contactList.add(contactView.getFirstNameField().getText(),
+            long contactId = contactList.add(contactView.getFirstNameField().getText(),
                     contactView.getLastNameField().getText(),
                     contactView.getPhoneNumberField().getText(),
                     contactView.getEmailField().getText(),
                     contactView.getTwitterField().getText(),
                     contactView.getFacebookField().getText());
-
+            csi.createAllIndexesFor(contactList.getById(contactId));
             contactTableModel.fireTableDataChanged();
             isCreatingNewContact = false;
 
         } else {
 
             long contactId = contactView.getCurrentContactId();
+            Contact contact = contactList.getById(contactId);
             contactList.update(contactId, contactView.getFirstNameField().getText(),
                     contactView.getLastNameField().getText(),
                     contactView.getPhoneNumberField().getText(),
                     contactView.getEmailField().getText(),
                     contactView.getTwitterField().getText(),
                     contactView.getFacebookField().getText());
+            csi.deleteAllIndexesFor(contact);
+            csi.createAllIndexesFor(contact);
             contactTableModel.fireTableDataChanged();
         }
 
@@ -225,6 +228,8 @@ public class Controller {
         for (int selectedRow : contactListTable.getSelectedRows()) {
             int selectedRowModel = contactListTable.convertRowIndexToModel(selectedRow);
             long contactId = (long) contactListTable.getValueAt(selectedRowModel, 0);
+            csi.deleteAllIndexesFor(contactList.getById(contactId));
+
             contactIds.add(contactId);
         }
         contactList.removeAll(contactIds);
@@ -236,8 +241,9 @@ public class Controller {
      */
     private void handleDeleteDetailButton() {
         if (!isCreatingNewContact) {
+            csi.deleteAllIndexesFor(contactList.getById(contactView.getCurrentContactId()));
+
             contactList.remove(contactView.getCurrentContactId());
-            contactTableModel.fireTableDataChanged();
         }
         unloadContactView();
     }
