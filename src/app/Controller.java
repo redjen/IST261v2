@@ -15,9 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import javax.swing.DefaultRowSorter;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
