@@ -26,19 +26,19 @@ public class ContactDetailPanel extends CardPanelBase {
 
       addContactButton = new JButton("New", new ImageIcon(ADD_ICON));
       addContactButton.setToolTipText("new contact");
-      addButton(addContactButton);
+      addToButtonPanel(addContactButton);
 
       deleteContactButton = new JButton("Delete", new ImageIcon(DELETE_ICON));
       deleteContactButton.setToolTipText("delete contact");
-      addButton(deleteContactButton);
+      addToButtonPanel(deleteContactButton);
 
       saveContactButton = new JButton("Save", new ImageIcon(SAVE_ICON));
       saveContactButton.setToolTipText("save changes");
-      addButton(saveContactButton);
+      addToButtonPanel(saveContactButton);
 
       tableButton = new JButton("Contacts", new ImageIcon(TABLE_ICON));
       tableButton.setToolTipText("show table");
-      addButton(tableButton);
+      addToButtonPanel(tableButton);
 
    }
 

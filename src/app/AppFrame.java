@@ -9,18 +9,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * The main frame of the application
- * 
- * 
+ *
+ *
  *
  */
 public class AppFrame extends JFrame {
 
-   public AppFrame(String title) throws HeadlessException {
-      super(title);
+    public AppFrame(String title) throws HeadlessException {
+        super(title);
 
-      try {
-         
-         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        try {
+
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 //         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 //            if ("Nimbus".equals(info.getName())) {
 //               UIManager.setLookAndFeel(info.getClassName());
@@ -30,12 +30,13 @@ public class AppFrame extends JFrame {
 //            }
 //         }
 
-         setBounds(0, 0, 800, 600);
-         setDefaultCloseOperation(EXIT_ON_CLOSE);
+            // Set Y so that the app isn't shown under a top-positioned Windows toolbar
+            setBounds(0, 100, 800, 600);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-         Logger.getLogger(AppFrame.class.getName()).log(Level.SEVERE, null, ex);
-      }
-   }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(AppFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

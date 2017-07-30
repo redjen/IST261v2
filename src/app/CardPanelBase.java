@@ -7,16 +7,17 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 /**
  * The CardPanelBase is an abstract class to be used as the superclass for
  * the views added to MainPanel.
  *
  * It provides two subcomponents: a panel for action buttons and a scrollable
- * panel for content. Action buttons can be added with the addButton method.
- * the panel's content can be set in the constructor or using setContent after
- * construction. Methods that manipulate the panel's layout call revalidate to
- * update the UI.
+ panel for content. Action buttons can be added with the addToButtonPanel method.
+ the panel's content can be set in the constructor or using setContent after
+ construction. Methods that manipulate the panel's layout call revalidate to
+ update the UI.
  *
  */
 public abstract class CardPanelBase extends JPanel {
@@ -29,7 +30,7 @@ public abstract class CardPanelBase extends JPanel {
       buttonPanel = new JPanel(new FlowLayout());
       quitButton = new JButton("Quit");
       quitButton.setToolTipText("show details");
-      addButton(quitButton);
+      addToButtonPanel(quitButton);
 
       setLayout();
 
@@ -41,8 +42,17 @@ public abstract class CardPanelBase extends JPanel {
     *
     * @param button the button to add
     */
-   public final void addButton(JButton button) {
+   public final void addToButtonPanel(JButton button) {
       buttonPanel.add(button);
+   }
+   
+      /**
+    * Adds a text field to the end of the button panel
+    *
+    * @param textField the button to add
+    */
+   public final void addToButtonPanel(JTextField textField) {
+      buttonPanel.add(textField);
    }
 
    /**

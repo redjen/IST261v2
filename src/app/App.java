@@ -9,35 +9,36 @@ import data.PersonYouMayKnowQueue;
  */
 public class App {
 
-   public static void main(String[] args) {
+    public static void main(String[] args) {
 
-      Controller cldc = new Controller();
-      PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
-      testLinkedList();
-   }
+        Controller cldc = new Controller();
 
-   /**
-    * Demonstrates the use of PersonYouMayKnowQueue for the assignment
-    * "M08-A01 Implementing a LinkedList"
-    */
-   private static void testLinkedList() {
+//       this was for M08-A01
+//      testLinkedList();
+    }
 
-      PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
+    /**
+     * Demonstrates the use of PersonYouMayKnowQueue for the assignment "M08-A01
+     * Implementing a LinkedList"
+     */
+    private static void testLinkedList() {
 
-      queue.addItem(new PersonYouMayKnow("new item", "this item should now be third", "", "", "", "", 4, 3));
-      System.out.println("=====\n\nLinkedList with added item:");
-      System.out.println(queue.toString());
+        PersonYouMayKnowQueue queue = new PersonYouMayKnowQueue();
 
-      System.out.println();
-      System.out.println();
-      
-      System.out.println("=====\n\nGet the item with the string 'should now'");
-      PersonYouMayKnow found = queue.getItem("should now");
-      System.out.println("Found: " + found.getFullName());
+        queue.addItem(new PersonYouMayKnow("new item", "this item should now be third", "", "", "", "", 4, 3));
+        System.out.println("=====\n\nLinkedList with added item:");
+        System.out.println(queue.toString());
 
-      System.out.println("=====\n\nRemove the found item");
-      System.out.println("LinkedList with removed item:");
-      queue.removeItem(found);
-      System.out.println(queue.toString());
-   }
+        System.out.println();
+        System.out.println();
+
+        System.out.println("=====\n\nGet the item with the string 'should now'");
+        PersonYouMayKnow found = queue.getItem("should now");
+        System.out.println("Found: " + found.getFullName());
+
+        System.out.println("=====\n\nRemove the found item");
+        System.out.println("LinkedList with removed item:");
+        queue.removeItem(found);
+        System.out.println(queue.toString());
+    }
 }
