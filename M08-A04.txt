@@ -1,0 +1,5 @@
+The class for assignment M08-A04 is ContactSearchIndex (the same class as for M08-A03). ContactSearchIndex generates indexes of terms in the contact list. Each term is the key in a HashMap. The value is a HashSet that contains the IDs of each contact that contains the search term. 
+
+I chose HashSets for several reasons. First, the risk of duplicating values is high as a contact could contain one search term in multiple fields. Sets prevent duplication. Second, the list does not need to be sorted. Finally, the insert, delete, and search functions of a HashSet are O(1) at best and O(n) at worst, making them more performant than Arrays, Stacks, and LinkedLists. These operations will be slower if collisions occur, but the small amount of data handled by the application makes that unlikely.
+
+I originally chose a different route for this assignment, as detailed in M08-A02. When I began working with TreeSets I found that they were a poor choice for use with JTables. I chose to use a different application of collections for this assignment so that I would be able to demonstrate choosing an appropriate collection and an interesting implementation.
